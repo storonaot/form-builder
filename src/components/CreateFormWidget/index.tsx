@@ -25,12 +25,12 @@ export const CreateFormWidget = () => {
   }) => {
     const newForm: Form = {
       ...formData,
-      id: Date.now().toString(),
       createdAt: new Date(),
+      fields: [],
     };
     setCurrentForm(newForm);
     setIsModalOpen(false);
-    router.push(`/create?id=${newForm.id}`);
+    router.push("/create");
   };
 
   return (

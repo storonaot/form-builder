@@ -16,8 +16,14 @@ export const FieldBuilderWidget = () => {
   };
 
   const handleFieldSettingsSubmit = (data: FieldSettingsData) => {
-    console.log("Field created:", { type: selectedFieldType, ...data });
-    // TODO: Добавить поле в форму
+    if (!selectedFieldType) return;
+
+    const fieldData = {
+      type: selectedFieldType,
+      ...data,
+    };
+
+    setSelectedFieldType(null); // Сброс после добавления
   };
 
   return (
