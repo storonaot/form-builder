@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CreateModal } from "./CreateModal";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 export const CreateFormWidget = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,8 +16,9 @@ export const CreateFormWidget = () => {
 
   return (
     <div>
-      <Button variant="outline" onClick={handleOpenModal}>
-        Создать
+      <Button onClick={handleOpenModal} className="gap-2">
+        <Plus className="h-4 w-4" />
+        Создать форму
       </Button>
       {isModalOpen && (
         <CreateModal isOpen={isModalOpen} onClose={handleCloseModal} />

@@ -40,6 +40,8 @@ const mockFormList: FormItem[] = [
   },
 ];
 
+const mockFormListEmpty = [];
+
 export const FormListWidget = () => {
   const goToEditPage = (id: string) => {
     // тут переход на страницу /edit/:id
@@ -51,7 +53,7 @@ export const FormListWidget = () => {
 
   return (
     <div>
-      {mockFormList.length ? (
+      {mockFormListEmpty.length ? (
         <div className="space-y-4">
           {mockFormList.map((item) => (
             <ListItem
