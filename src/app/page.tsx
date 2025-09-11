@@ -4,7 +4,7 @@ import { CreateFormWidget } from "@/components/CreateFormWidget";
 import { FormListWidget } from "@/components/FormListWidget";
 import { PageLayout } from "@/components/PageLayout";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <PageLayout>
       <div className="flex items-center justify-between mb-8">

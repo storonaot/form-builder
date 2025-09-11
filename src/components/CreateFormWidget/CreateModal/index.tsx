@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 interface CreateModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSubmit: (data: { name: string; description: string }) => void;
 }
 
 interface FormData {
@@ -22,7 +23,11 @@ interface FormData {
   description: string;
 }
 
-export const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
+export const CreateModal = ({
+  isOpen,
+  onClose,
+  onSubmit,
+}: CreateModalProps) => {
   const {
     register,
     handleSubmit,
@@ -35,12 +40,13 @@ export const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
+  const handleFormSubmit = async (data: FormData) => {
     try {
-      console.log("Создание формы:", data);
-      // TODO: Здесь будет логика создания формы
+      onSubmit({
+        name: data.title,
+        description: data.description,
+      });
       reset();
-      onClose();
     } catch (error) {
       console.error("Ошибка создания формы:", error);
     }
@@ -52,9 +58,12 @@ export const CreateModal = ({ isOpen, onClose }: CreateModalProps) => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <Dialog open={isOpen} onOpenChange={() => {}}>
+      <DialogContent
+        className="sm:max-w-[425px]"
+        onPointerDownOutside={(e) => e.preventDefault()}
+      >
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <DialogHeader>
             <DialogTitle>Создать новую форму</DialogTitle>
             <DialogDescription>
