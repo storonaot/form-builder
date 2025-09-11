@@ -12,17 +12,14 @@ export default function CreatePage() {
   const router = useRouter();
   const { currentForm } = useFormContext();
 
-  if (!currentForm) {
-    return (
-      <PageLayout>
-        <div className="text-center py-12">
-          <h1 className="text-2xl font-semibold text-muted-foreground">
-            Форма не найдена
-          </h1>
-        </div>
-      </PageLayout>
-    );
-  }
+  // Дефолтные значения при потере контекста
+  const defaultForm = {
+    name: "Новая форма",
+    description: "Описание формы недоступно - контекст потерян",
+  };
+
+  const formData = currentForm || defaultForm;
+  const isContextLost = !currentForm;
 
   return (
     <PageLayout>
@@ -37,14 +34,20 @@ export default function CreatePage() {
           Назад
         </Button>
 
+        {isContextLost && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
+            <p className="text-sm text-yellow-800">
+              ⚠️ Контекст формы потерян. Используются дефолтные значения.
+            </p>
+          </div>
+        )}
+
         <div>
           <h1 className="text-3xl font-bold">
-            Создание формы: {currentForm.name}
+            Создание формы: {formData.name}
           </h1>
-          {currentForm.description && (
-            <p className="text-muted-foreground mt-2">
-              {currentForm.description}
-            </p>
+          {formData.description && (
+            <p className="text-muted-foreground mt-2">{formData.description}</p>
           )}
         </div>
 
