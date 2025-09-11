@@ -5,11 +5,11 @@ import { FieldSettings } from "./FieldSettings";
 import { FieldVariantSelector, FieldType } from "./FieldVariantSelector";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldSettingsData } from "./types";
+import { Nullable } from "@/lib/utility-types";
 
 export const FieldBuilderWidget = () => {
-  const [selectedFieldType, setSelectedFieldType] = useState<FieldType | null>(
-    null
-  );
+  const [selectedFieldType, setSelectedFieldType] =
+    useState<Nullable<FieldType>>(null);
 
   const handleFieldTypeChange = (type: FieldType) => {
     setSelectedFieldType(type);

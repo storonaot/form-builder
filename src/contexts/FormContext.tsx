@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
+import { Nullable } from "@/lib/utility-types";
 
 export interface Form {
   id: string;
@@ -10,15 +11,15 @@ export interface Form {
 }
 
 interface FormContextType {
-  currentForm: Form | null;
-  setCurrentForm: (form: Form | null) => void;
+  currentForm: Nullable<Form>;
+  setCurrentForm: (form: Nullable<Form>) => void;
   clearCurrentForm: () => void;
 }
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
 
 export function FormProvider({ children }: { children: ReactNode }) {
-  const [currentForm, setCurrentForm] = useState<Form | null>(null);
+  const [currentForm, setCurrentForm] = useState<Nullable<Form>>(null);
 
   const clearCurrentForm = () => {
     setCurrentForm(null);

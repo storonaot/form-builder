@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Nullable } from "@/lib/utility-types";
 // Убираем импорт иконок
 
 export type FieldType = "string" | "integer" | "decimal" | "datetime";
@@ -35,7 +36,7 @@ export const FieldVariantSelector = ({
   onTypeChange,
 }: FieldVariantSelectorProps) => {
   const [internalSelectedType, setInternalSelectedType] =
-    useState<FieldType | null>(null);
+    useState<Nullable<FieldType>>(null);
 
   const currentSelectedType = selectedType || internalSelectedType;
 
