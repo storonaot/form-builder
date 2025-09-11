@@ -1,11 +1,12 @@
 import { CreateModal } from "./CreateModal";
+import { Button } from "@/components/ui/button";
 
 export const CreateFormWidget = () => {
   const shhouldShowModal = false;
 
   return (
     <div>
-      <button>Создать</button>
+      <Button variant="outline">Создать</Button>
       {shhouldShowModal && <CreateModal />}
     </div>
   );
