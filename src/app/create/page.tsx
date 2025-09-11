@@ -1,10 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { PageLayout } from "@/components/PageLayout";
 import { useFormContext } from "@/contexts/FormContext";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { FormPreviewWidget } from "@/components/FormPreviewWidget";
+import { FieldBuilderWidget } from "@/components/FieldBuilderWidget";
 
 export default function CreatePage() {
+  const router = useRouter();
   const { currentForm } = useFormContext();
 
   if (!currentForm) {
@@ -21,25 +26,36 @@ export default function CreatePage() {
 
   return (
     <PageLayout>
-      <div className="space-y-6">
+      <div className="space-y-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => router.back()}
+          className="gap-2 -ml-2"
+        >
+          <ArrowLeft className="h-3 w-3" />
+          Назад
+        </Button>
+
         <div>
-          <h1 className="text-3xl font-bold">Создание формы</h1>
-          <p className="text-muted-foreground">
-            Настройте параметры вашей формы
-          </p>
+          <h1 className="text-3xl font-bold">
+            Создание формы: {currentForm.name}
+          </h1>
+          {currentForm.description && (
+            <p className="text-muted-foreground mt-2">
+              {currentForm.description}
+            </p>
+          )}
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{currentForm.name}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">{currentForm.description}</p>
-            <div className="mt-4 text-sm text-muted-foreground">
-              Создано: {currentForm.createdAt.toLocaleDateString("ru-RU")}
-            </div>
-          </CardContent>
-        </Card>
+        <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-8">
+            <FormPreviewWidget />
+          </div>
+          <div className="col-span-4">
+            <FieldBuilderWidget />
+          </div>
+        </div>
       </div>
     </PageLayout>
   );
