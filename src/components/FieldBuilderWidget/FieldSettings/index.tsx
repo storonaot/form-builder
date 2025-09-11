@@ -8,18 +8,28 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { FieldType } from "../FieldVariantSelector";
 import { FieldSettingsData } from "../types";
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 
 interface FieldSettingsProps {
   selectedFieldType?: FieldType;
   onSubmit?: (data: FieldSettingsData) => void;
+  onFormChange?: () => void;
 }
 
-const DEFAULT_ERROR_MESSAGE = "Это поле обязательно для заполнения";
+const DEFAULT_FIELD_VALUES: FieldSettingsData = {
+  label: "",
+  hint: "",
+  required: false,
+  errorMessage: "",
+  defaultValue: "",
+  placeholder: "",
+  fullWidth: true,
+};
 
 export const FieldSettings: FC<FieldSettingsProps> = ({
   selectedFieldType,
   onSubmit,
+  onFormChange,
 }) => {
   const {
     register,
@@ -29,18 +39,18 @@ export const FieldSettings: FC<FieldSettingsProps> = ({
     setValue,
     formState: { errors },
   } = useForm<FieldSettingsData>({
-    defaultValues: {
-      label: "",
-      hint: "",
-      required: false,
-      errorMessage: "",
-      defaultValue: "",
-      placeholder: "",
-    },
+    defaultValues: DEFAULT_FIELD_VALUES,
   });
 
-  const isRequired = watch("required");
-  const fieldType = selectedFieldType;
+  const prevFieldTypeRef = useRef<FieldType | undefined>(undefined);
+
+  // Сброс формы при изменении типа поля
+  useEffect(() => {
+    if (selectedFieldType && selectedFieldType !== prevFieldTypeRef.current) {
+      reset(DEFAULT_FIELD_VALUES);
+      prevFieldTypeRef.current = selectedFieldType;
+    }
+  }, [selectedFieldType, reset]);
 
   const handleFormSubmit = (data: FieldSettingsData) => {
     if (onSubmit) {
@@ -62,7 +72,11 @@ export const FieldSettings: FC<FieldSettingsProps> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      onChange={onFormChange}
+      className="space-y-4"
+    >
       <div className="space-y-2">
         <div className="flex items-center space-x-2">
           <Label htmlFor="required" className="text-sm font-medium">
