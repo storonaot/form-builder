@@ -64,6 +64,19 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
                 options={fieldTypes}
               />
             </FieldWrapper>
+
+            <FieldWrapper
+              htmlFor="name"
+              label="Имя поля"
+              errorMsg={getErrorMessage(formState.errors, "name")}
+            >
+              <Input
+                id="name"
+                {...register("name", { required: "Имя поля обязательно" })}
+                placeholder="Введите имя поля (например: email, phone)"
+              />
+            </FieldWrapper>
+
             <FieldWrapper
               htmlFor="label"
               label="Лейбл"
@@ -71,7 +84,7 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
             >
               <Input
                 id="label"
-                {...register("label", { required: "Лейбл обязателен" })}
+                {...register("label")}
                 placeholder="Введите название поля"
               />
             </FieldWrapper>

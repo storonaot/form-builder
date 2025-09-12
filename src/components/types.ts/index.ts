@@ -3,6 +3,7 @@ export type FieldType = "string" | "integer" | "decimal" | "datetime";
 export type FieldSchema = {
   id: string;
   type: FieldType;
+  name: string;
   label: string;
 };
 
