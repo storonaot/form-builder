@@ -9,6 +9,7 @@ type Props = {
   name: string;
   required: boolean;
   controllerProps: FieldHookForm;
+  error?: string;
 };
 
 export const FieldRenderer: FC<Props> = ({
@@ -17,6 +18,7 @@ export const FieldRenderer: FC<Props> = ({
   name,
   required,
   controllerProps,
+  error,
 }) => {
   const renderField = () => {
     switch (fieldType) {
@@ -26,7 +28,6 @@ export const FieldRenderer: FC<Props> = ({
             onChange={controllerProps.onChange}
             value={controllerProps.value || ""}
             placeholder="Введите текст"
-            required={required}
           />
         );
       case "integer":
@@ -37,7 +38,6 @@ export const FieldRenderer: FC<Props> = ({
             value={controllerProps.value || ""}
             placeholder="Введите целое число"
             step="1"
-            required={required}
           />
         );
       case "decimal":
@@ -48,7 +48,6 @@ export const FieldRenderer: FC<Props> = ({
             value={controllerProps.value || ""}
             placeholder="Введите десятичное число"
             step="0.01"
-            required={required}
           />
         );
       case "datetime":
@@ -58,7 +57,6 @@ export const FieldRenderer: FC<Props> = ({
             onChange={controllerProps.onChange}
             value={controllerProps.value || ""}
             placeholder="Выберите дату и время"
-            required={required}
           />
         );
       default:
@@ -67,14 +65,13 @@ export const FieldRenderer: FC<Props> = ({
             onChange={controllerProps.onChange}
             value={controllerProps.value || ""}
             placeholder="Неизвестный тип поля"
-            required={required}
           />
         );
     }
   };
 
   return (
-    <FieldWrapper label={label} htmlFor={name}>
+    <FieldWrapper label={label} htmlFor={name} errorMsg={error}>
       {renderField()}
     </FieldWrapper>
   );

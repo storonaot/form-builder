@@ -45,7 +45,7 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Настроить поле</CardTitle>
+        <CardTitle>Добавить новое поле</CardTitle>
       </CardHeader>
       <CardContent>
         <FormProvider {...methods}>
