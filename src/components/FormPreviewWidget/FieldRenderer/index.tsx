@@ -37,7 +37,6 @@ export const FieldRenderer: FC<Props> = ({
             onChange={controllerProps.onChange}
             value={controllerProps.value || ""}
             placeholder="Введите целое число"
-            step="1"
           />
         );
       case "decimal":
@@ -47,7 +46,6 @@ export const FieldRenderer: FC<Props> = ({
             onChange={controllerProps.onChange}
             value={controllerProps.value || ""}
             placeholder="Введите десятичное число"
-            step="0.01"
           />
         );
       case "datetime":
@@ -75,6 +73,7 @@ export const FieldRenderer: FC<Props> = ({
       label={`${label}:${fieldType}`}
       htmlFor={name}
       errorMsg={error}
+      required={required}
     >
       {renderField()}
     </FieldWrapper>

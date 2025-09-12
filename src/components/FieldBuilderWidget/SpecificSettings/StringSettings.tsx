@@ -15,12 +15,27 @@ export const StringSettings = () => {
       >
         <Input
           id="minLength"
-          type="number"
+          type="text"
+          error={Boolean(getErrorMessage(formState.errors, "minLength"))}
           {...register("minLength", {
-            valueAsNumber: true,
-            min: {
-              value: 0,
-              message: "Минимальная длина не может быть отрицательной",
+            validate: {
+              isNumber: (value) => {
+                if (value === "" || value === undefined) return true;
+                const num = Number(value);
+                return !isNaN(num) || "Введите корректное число";
+              },
+              isInteger: (value) => {
+                if (value === "" || value === undefined) return true;
+                const num = Number(value);
+                return Number.isInteger(num) || "Должно быть целым числом";
+              },
+              min: (value) => {
+                if (value === "" || value === undefined) return true;
+                const num = Number(value);
+                return (
+                  num >= 0 || "Минимальная длина не может быть отрицательной"
+                );
+              },
             },
           })}
           placeholder="0"
@@ -33,12 +48,25 @@ export const StringSettings = () => {
       >
         <Input
           id="maxLength"
-          type="number"
+          type="text"
+          error={Boolean(getErrorMessage(formState.errors, "maxLength"))}
           {...register("maxLength", {
-            valueAsNumber: true,
-            min: {
-              value: 1,
-              message: "Максимальная длина должна быть больше 0",
+            validate: {
+              isNumber: (value) => {
+                if (value === "" || value === undefined) return true;
+                const num = Number(value);
+                return !isNaN(num) || "Введите корректное число";
+              },
+              isInteger: (value) => {
+                if (value === "" || value === undefined) return true;
+                const num = Number(value);
+                return Number.isInteger(num) || "Должно быть целым числом";
+              },
+              min: (value) => {
+                if (value === "" || value === undefined) return true;
+                const num = Number(value);
+                return num >= 1 || "Максимальная длина должна быть больше 0";
+              },
             },
           })}
           placeholder="100"

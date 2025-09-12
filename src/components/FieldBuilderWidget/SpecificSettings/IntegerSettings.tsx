@@ -15,9 +15,21 @@ export const IntegerSettings = () => {
       >
         <Input
           id="min"
-          type="number"
+          type="text"
+          error={Boolean(getErrorMessage(formState.errors, "min"))}
           {...register("min", {
-            valueAsNumber: true,
+            validate: {
+              isNumber: (value) => {
+                if (value === "" || value === undefined) return true;
+                const num = Number(value);
+                return !isNaN(num) || "Введите корректное число";
+              },
+              isInteger: (value) => {
+                if (value === "" || value === undefined) return true;
+                const num = Number(value);
+                return Number.isInteger(num) || "Должно быть целым числом";
+              },
+            },
           })}
           placeholder="0"
         />
@@ -29,9 +41,21 @@ export const IntegerSettings = () => {
       >
         <Input
           id="max"
-          type="number"
+          type="text"
+          error={Boolean(getErrorMessage(formState.errors, "max"))}
           {...register("max", {
-            valueAsNumber: true,
+            validate: {
+              isNumber: (value) => {
+                if (value === "" || value === undefined) return true;
+                const num = Number(value);
+                return !isNaN(num) || "Введите корректное число";
+              },
+              isInteger: (value) => {
+                if (value === "" || value === undefined) return true;
+                const num = Number(value);
+                return Number.isInteger(num) || "Должно быть целым числом";
+              },
+            },
           })}
           placeholder="100"
         />

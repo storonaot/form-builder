@@ -75,9 +75,11 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
               htmlFor="name"
               label="Имя поля"
               errorMsg={getErrorMessage(formState.errors, "name")}
+              required={true}
             >
               <Input
                 id="name"
+                error={Boolean(getErrorMessage(formState.errors, "name"))}
                 {...register("name", { required: "Имя поля обязательно" })}
                 placeholder="Введите имя поля (например: email, phone)"
               />
@@ -90,6 +92,7 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
             >
               <Input
                 id="label"
+                error={Boolean(getErrorMessage(formState.errors, "label"))}
                 {...register("label")}
                 placeholder="Введите название поля"
               />

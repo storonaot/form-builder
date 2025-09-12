@@ -18,7 +18,9 @@ export type StringFieldSchema = BaseFieldSchema & {
 
 export type DecimalFieldSchema = BaseFieldSchema & {
   type: "decimal";
-  decimalPlaces?: number;
+  minimum?: number;
+  maximum?: number;
+  decimalPlaces?: number; // количество знаков после запятой
 };
 
 export type IntegerFieldSchema = BaseFieldSchema & {

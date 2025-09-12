@@ -3,6 +3,7 @@ import {
   FieldSchema,
   IntegerFieldSchema,
   StringFieldSchema,
+  DecimalFieldSchema,
 } from "../types.ts";
 
 export const getValidationRules = (field: FieldSchema): RegisterOptions => {
@@ -62,8 +63,55 @@ export const getValidationRules = (field: FieldSchema): RegisterOptions => {
       return { ...requiredRule, ...integerRules };
 
     case "decimal":
-      // TODO: добавить валидации для decimal
-      return requiredRule;
+      const decimalField = field as DecimalFieldSchema;
+      const decimalRules: RegisterOptions = {};
+
+      // Проверка на число
+      decimalRules.pattern = {
+        value: /^-?\d*\.?\d+$/,
+        message: `${field.label} должно быть числом`,
+      };
+
+      // Проверка minimum значения
+      if (decimalField.minimum !== undefined && !isNaN(decimalField.minimum)) {
+        decimalRules.min = {
+          value: decimalField.minimum,
+          message: `${field.label} должно быть не менее ${decimalField.minimum}`,
+        };
+      }
+
+      // Проверка maximum значения
+      if (decimalField.maximum !== undefined && !isNaN(decimalField.maximum)) {
+        decimalRules.max = {
+          value: decimalField.maximum,
+          message: `${field.label} должно быть не более ${decimalField.maximum}`,
+        };
+      }
+
+      // Проверка количества знаков после запятой
+      if (
+        decimalField.decimalPlaces !== undefined &&
+        !isNaN(decimalField.decimalPlaces)
+      ) {
+        decimalRules.validate = {
+          decimalPlaces: (value: string) => {
+            if (!value) return true; // пустое значение пропускаем
+
+            const num = parseFloat(value);
+            if (isNaN(num)) return true;
+
+            const decimalPart = value.split(".")[1];
+            const actualDecimalPlaces = decimalPart ? decimalPart.length : 0;
+
+            return (
+              actualDecimalPlaces <= decimalField.decimalPlaces! ||
+              `${field.label} должно иметь не более ${decimalField.decimalPlaces} знаков после запятой`
+            );
+          },
+        };
+      }
+
+      return { ...requiredRule, ...decimalRules };
 
     case "datetime":
       // TODO: добавить валидации для datetime
