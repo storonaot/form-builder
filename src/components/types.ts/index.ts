@@ -2,13 +2,39 @@ import { ControllerRenderProps } from "react-hook-form";
 
 export type FieldType = "string" | "integer" | "decimal" | "datetime";
 
-export type FieldSchema = {
+export type BaseFieldSchema = {
   id: string;
   type: FieldType;
   name: string;
   label: string;
   required: boolean;
 };
+
+type StringFieldSchema = BaseFieldSchema & {
+  type: "string";
+  minLength?: number;
+  maxLength?: number;
+};
+
+type DecimalFieldSchema = BaseFieldSchema & {
+  type: "decimal";
+};
+
+type IntegerFieldSchema = BaseFieldSchema & {
+  type: "integer";
+  min?: number;
+  max?: number;
+};
+
+type DateTimeFieldSchema = BaseFieldSchema & {
+  type: "datetime";
+};
+
+export type FieldSchema =
+  | StringFieldSchema
+  | DecimalFieldSchema
+  | IntegerFieldSchema
+  | DateTimeFieldSchema;
 
 export type FormSettings = {
   id: string;
@@ -24,47 +50,5 @@ export type FieldHookForm<T extends string = string> = ControllerRenderProps<
   T
 >;
 
-// Базовый интерфейс с общими полями
-// export interface BaseField {
-//   id: string;
-//   name: string;
-//   label: string;
-//   placeholder?: string;
-//   hint?: string;
-//   required: boolean;
-// }
-
-// // Специфичные интерфейсы для каждого типа
-// export interface StringField extends BaseField {
-//   type: "string";
-//   minLength?: number;
-//   maxLength?: number;
-//   pattern?: string;
-// }
-
-// export interface IntegerField extends BaseField {
-//   type: "integer";
-//   min?: number;
-//   max?: number;
-// }
-
-// export interface DecimalField extends BaseField {
-//   type: "decimal";
-//   min?: number;
-//   max?: number;
-//   step?: number;
-// }
-
-// export interface DateTimeField extends BaseField {
-//   type: "datetime";
-//   min?: string;
-//   max?: string;
-// }
-
-// Union тип для всех полей
-// export type Field = StringField | IntegerField | DecimalField | DateTimeField;
-
-// Для настроек полей (без id)
-// export type FieldSettings = Omit<Field, "id">;
-
-// Для типов полей
+// Для настроек полей (без id) - используется в формах создания
+export type FieldSettings = Omit<BaseFieldSchema, "id">;

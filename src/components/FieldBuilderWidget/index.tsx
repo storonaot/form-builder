@@ -7,10 +7,11 @@ import { SelectField } from "../ui/SelectField";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
-import { FieldSchema, FieldType } from "../types.ts";
+import { FieldSchema, FieldType, FieldSettings } from "../types.ts";
 import { FC, useRef } from "react";
 import { getErrorMessage } from "@/lib/form-utils";
 import { nanoid } from "nanoid";
+import { SpecificSettings } from "./SpecificSettings";
 
 const fieldTypes = [
   { value: "string", label: "Текст" },
@@ -24,12 +25,13 @@ type Props = {
 };
 
 export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
-  const methods = useForm<FieldSchema>();
+  const methods = useForm<FieldSettings>();
   const { register, watch, reset, setValue, formState } = methods;
   const prevFieldType = useRef<FieldType>(null);
 
-  const onSubmit = (fieldSettings: FieldSchema) => {
-    onCreate({ ...fieldSettings, id: nanoid() });
+  const onSubmit = (fieldSettings: FieldSettings) => {
+    const fieldWithId: FieldSchema = { ...fieldSettings, id: nanoid() } as FieldSchema;
+    onCreate(fieldWithId);
     reset();
   };
 
@@ -107,7 +109,7 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
                 )}
               />
             </FieldWrapper>
-            {/* <SpecificSettings fieldType={watch("type")} /> */}
+            <SpecificSettings fieldType={watch("type")} />
             <Button
               type="submit"
               className="bg-slate-800 hover:bg-slate-900 text-white font-medium"
