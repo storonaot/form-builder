@@ -1,3 +1,5 @@
+import { ControllerRenderProps } from "react-hook-form";
+
 export type FieldType = "string" | "integer" | "decimal" | "datetime";
 
 export type FieldSchema = {
@@ -5,6 +7,7 @@ export type FieldSchema = {
   type: FieldType;
   name: string;
   label: string;
+  required: boolean;
 };
 
 export type FormSettings = {
@@ -14,6 +17,12 @@ export type FormSettings = {
   fields: FieldSchema[];
   createdAt: string;
 };
+
+// Типы для хук формы
+export type FieldHookForm<T extends string = string> = ControllerRenderProps<
+  Record<string, any>,
+  T
+>;
 
 // Базовый интерфейс с общими полями
 // export interface BaseField {

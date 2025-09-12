@@ -18,13 +18,14 @@ export const FormRenderer: FC<Props> = ({ fields, onSuccess }) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        className="grid grid-cols-1 gap-4"
+      >
         {fields.map((field) => (
-          <div key={field.id}>
-            <FieldController field={field} />
-          </div>
+          <FieldController key={field.id} field={field} />
         ))}
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Отправить данные формы</Button>
       </form>
     </FormProvider>
   );

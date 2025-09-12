@@ -1,11 +1,12 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, Controller } from "react-hook-form";
 import { FieldWrapper } from "../ui/FieldWrapper";
 import { SelectField } from "../ui/SelectField";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Switch } from "../ui/switch";
 import { FieldSchema, FieldType } from "../types.ts";
 import { FC, useRef } from "react";
 import { getErrorMessage } from "@/lib/form-utils";
@@ -86,6 +87,24 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
                 id="label"
                 {...register("label")}
                 placeholder="Введите название поля"
+              />
+            </FieldWrapper>
+
+            <FieldWrapper
+              htmlFor="required"
+              label="Обязательное поле"
+              errorMsg={getErrorMessage(formState.errors, "required")}
+            >
+              <Controller
+                name="required"
+                control={methods.control}
+                defaultValue={false}
+                render={({ field }) => (
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
               />
             </FieldWrapper>
             {/* <SpecificSettings fieldType={watch("type")} /> */}
