@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { FieldSchema, FieldType } from "../types.ts";
 import { Controller, useFormContext } from "react-hook-form";
+import { Input } from "../ui/input";
+import { FieldWrapper } from "../ui/FieldWrapper";
 
 type Props = {
   field: FieldSchema;
@@ -11,23 +13,22 @@ const FieldRenderer: FC<{
   label: string;
   name: string;
 }> = ({ fieldType, label, name }) => {
+  const renderField = () => {
+    switch (fieldType) {
+      case "string":
+        return <Input name={name} />;
+    }
+  };
+
   return (
-    <div>
-      <div>{label}</div>
-      <div>{fieldType}</div>
-      <div>{name}</div>
-    </div>
+    <FieldWrapper label={label} htmlFor={name}>
+      {renderField()}
+    </FieldWrapper>
   );
 };
 
 export const FieldController: FC<Props> = ({ field }) => {
   const formContext = useFormContext();
-
-  // Проверяем, что поле name существует
-  if (!field.name) {
-    console.error("Field name is missing:", field);
-    return <div>Ошибка: поле не имеет имени</div>;
-  }
 
   return (
     <Controller
