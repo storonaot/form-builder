@@ -9,37 +9,19 @@ export const DecimalSettings = () => {
   return (
     <>
       <FieldWrapper
-        htmlFor="min"
-        label="Мин. значение"
-        errorMsg={getErrorMessage(formState.errors, "min")}
+        htmlFor="decimalPlaces"
+        label="Знаков после запятой"
+        errorMsg={getErrorMessage(formState.errors, "decimalPlaces")}
       >
         <Input
-          id="min"
+          id="decimalPlaces"
           type="number"
-          step="0.01"
-          {...register("min", {
+          min="0"
+          max="10"
+          {...register("decimalPlaces", {
             valueAsNumber: true,
-            validate: (value: number) =>
-              !isNaN(value) || "Введите корректное число",
           })}
-          placeholder="0.00"
-        />
-      </FieldWrapper>
-      <FieldWrapper
-        htmlFor="max"
-        label="Макс. значение"
-        errorMsg={getErrorMessage(formState.errors, "max")}
-      >
-        <Input
-          id="max"
-          type="number"
-          step="0.01"
-          {...register("max", {
-            valueAsNumber: true,
-            validate: (value: number) =>
-              !isNaN(value) || "Введите корректное число",
-          })}
-          placeholder="100.00"
+          placeholder="2"
         />
       </FieldWrapper>
     </>
