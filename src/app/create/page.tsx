@@ -10,6 +10,12 @@ import { useState } from "react";
 import { FieldSchema, FormSettings } from "@/components/types.ts";
 import { nanoid } from "nanoid";
 import { useFormsStorage } from "@/lib/hooks/use-forms-storage";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function CreatePage() {
   const router = useRouter();
@@ -21,13 +27,17 @@ export default function CreatePage() {
   const formDescription = searchParams.get("description") || "Описание формы";
 
   const [fields, setFields] = useState<FieldSchema[]>([]);
+  const [isFormDataModalOpen, setIsFormDataModalOpen] = useState(false);
+  const [formData, setFormData] = useState<Record<string, any> | null>(null);
 
   const onCreateField = (field: FieldSchema) => {
     setFields([...fields, field]);
   };
 
   const onSubmitData = (data: any) => {
-    console.log(data);
+    setFormData(data);
+    setIsFormDataModalOpen(true);
+    console.log("Данные формы:", data);
   };
 
   const handleSaveForm = () => {
@@ -81,6 +91,37 @@ export default function CreatePage() {
           </div>
         </div>
       </div>
+
+      {/* Модальное окно с данными формы */}
+      <Dialog open={isFormDataModalOpen} onOpenChange={setIsFormDataModalOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Данные формы "{formName}"</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="font-semibold mb-2">JSON структура:</h3>
+              {formData ? (
+                <pre className="bg-white p-3 rounded border text-sm overflow-auto max-h-60">
+                  {JSON.stringify(formData, null, 2)}
+                </pre>
+              ) : (
+                <p className="text-gray-500">Нет данных</p>
+              )}
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setIsFormDataModalOpen(false)}
+              >
+                Закрыть
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </PageLayout>
   );
 }
