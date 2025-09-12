@@ -52,4 +52,4 @@ export type FieldHookForm<T extends string = string> = ControllerRenderProps<
 >;
 
 // Для настроек полей (без id) - используется в формах создания
-export type FieldSettings = Omit<BaseFieldSchema, "id">;
+export type FieldSettings = Omit<FieldSchema, "id">;
