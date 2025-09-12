@@ -72,7 +72,7 @@ export default function CreatePage() {
           Назад
         </Button>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex justify-between items-start gap-4">
           <div>
             <h1 className="text-3xl font-bold">Создание формы: {formName}</h1>
             <p className="text-muted-foreground mt-2">{formDescription}</p>
