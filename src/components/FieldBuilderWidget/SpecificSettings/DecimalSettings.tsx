@@ -4,7 +4,11 @@ import { getErrorMessage } from "@/lib/form-utils";
 import { useFormContext } from "react-hook-form";
 
 export const DecimalSettings = () => {
-  const { register, formState } = useFormContext();
+  const { register, formState, watch } = useFormContext();
+
+  // Следим за значениями полей для валидации
+  const minimumValue = watch("minimum");
+  const maximumValue = watch("maximum");
 
   return (
     <>
@@ -23,6 +27,22 @@ export const DecimalSettings = () => {
                 if (value === "" || value === undefined) return true;
                 const num = Number(value);
                 return !isNaN(num) || "Введите корректное число";
+              },
+              lessThanMax: (value) => {
+                if (
+                  value === "" ||
+                  value === undefined ||
+                  maximumValue === "" ||
+                  maximumValue === undefined
+                )
+                  return true;
+                const minNum = Number(value);
+                const maxNum = Number(maximumValue);
+                if (isNaN(minNum) || isNaN(maxNum)) return true;
+                return (
+                  minNum < maxNum ||
+                  "Минимальное значение должно быть меньше максимального"
+                );
               },
             },
           })}
@@ -45,6 +65,22 @@ export const DecimalSettings = () => {
                 if (value === "" || value === undefined) return true;
                 const num = Number(value);
                 return !isNaN(num) || "Введите корректное число";
+              },
+              greaterThanMin: (value) => {
+                if (
+                  value === "" ||
+                  value === undefined ||
+                  minimumValue === "" ||
+                  minimumValue === undefined
+                )
+                  return true;
+                const maxNum = Number(value);
+                const minNum = Number(minimumValue);
+                if (isNaN(maxNum) || isNaN(minNum)) return true;
+                return (
+                  maxNum > minNum ||
+                  "Максимальное значение должно быть больше минимального"
+                );
               },
             },
           })}
