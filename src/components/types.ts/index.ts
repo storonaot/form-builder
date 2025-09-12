@@ -6,6 +6,14 @@ export type FieldSettingsData = {
   label: string;
 };
 
+export type FormSettings = {
+  id: string;
+  name: string;
+  description: string;
+  fields: FieldSettingsData[];
+  createdAt: string;
+};
+
 // Базовый интерфейс с общими полями
 // export interface BaseField {
 //   id: string;

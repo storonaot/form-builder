@@ -1,5 +1,6 @@
 import { FieldWrapper } from "@/components/ui/FieldWrapper";
 import { Input } from "@/components/ui/input";
+import { getErrorMessage } from "@/lib/form-utils";
 import { useFormContext } from "react-hook-form";
 
 export const DateTimeSettings = () => {
@@ -10,7 +11,7 @@ export const DateTimeSettings = () => {
       <FieldWrapper
         htmlFor="min"
         label="Мин. дата"
-        errors={formState.errors.min}
+        errorMsg={getErrorMessage(formState.errors, "min")}
       >
         <Input
           id="min"
@@ -27,7 +28,7 @@ export const DateTimeSettings = () => {
       <FieldWrapper
         htmlFor="max"
         label="Макс. дата"
-        errors={formState.errors.max}
+        errorMsg={getErrorMessage(formState.errors, "max")}
       >
         <Input
           id="max"

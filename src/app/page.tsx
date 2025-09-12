@@ -1,6 +1,6 @@
 "use client";
 
-import { CreateFormWidget } from "@/components/CreateFormWidget";
+import { InitConstructorFeature } from "@/components/InitConstructorFeature";
 import { FormListWidget } from "@/components/FormListWidget";
 import { PageLayout } from "@/components/PageLayout";
 
@@ -16,7 +16,7 @@ export default function HomePage() {
             Создавайте и управляйте вашими формами
           </p>
         </div>
-        <CreateFormWidget />
+        <InitConstructorFeature />
       </div>
 
       <div className="space-y-6">

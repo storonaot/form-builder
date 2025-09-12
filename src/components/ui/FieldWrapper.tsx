@@ -4,12 +4,13 @@ import { FC, PropsWithChildren } from "react";
 type FieldWrapperProps = PropsWithChildren<{
   label: string;
   htmlFor: string;
+  errorMsg?: string;
 }>;
 
 export const FieldWrapper: FC<FieldWrapperProps> = ({
   children,
   label,
-  errors,
+  errorMsg,
   htmlFor,
 }) => {
   return (
@@ -18,9 +19,7 @@ export const FieldWrapper: FC<FieldWrapperProps> = ({
         {label}
       </Label>
       <div>{children}</div>
-      {errors?.minLength && (
-        <p className="text-xs text-red-500">{errors.minLength.message}</p>
-      )}
+      {errorMsg && <p className="text-xs text-red-500">{errorMsg}</p>}
     </div>
   );
 };

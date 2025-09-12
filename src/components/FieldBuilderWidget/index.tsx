@@ -1,13 +1,15 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { FieldWrapper } from "../ui/FieldWrapper";
 import { SelectField } from "../ui/SelectField";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FieldSettingsData, FieldType } from "../types.ts";
 import { FC, useRef } from "react";
+import { getErrorMessage } from "@/lib/form-utils";
+import { nanoid } from "nanoid";
 
 const fieldTypes = [
   { value: "string", label: "Текст" },
@@ -17,25 +19,26 @@ const fieldTypes = [
 ];
 
 type Props = {
-  onCreate: (data: FieldValues) => void;
+  onCreate: (data: FieldSettingsData) => void;
 };
 
 export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
-  const methods = useForm();
+  const methods = useForm<FieldSettingsData>();
   const { register, watch, reset, setValue, formState } = methods;
   const prevFieldType = useRef<FieldType>(null);
 
-  const onSubmit = (fieldSettings: FieldValues) => {
-    // TODO: fix type
-    onCreate(fieldSettings as FieldSettingsData);
+  const onSubmit = (fieldSettings: FieldSettingsData) => {
+    onCreate({ ...fieldSettings, id: nanoid() });
+    reset();
   };
 
-  const handleTypeChange = (value: FieldType) => {
+  const handleTypeChange = (value: string) => {
     if (prevFieldType.current !== value) {
       reset();
     }
-    prevFieldType.current = value;
-    setValue("type", value);
+    // TODO: fix type
+    prevFieldType.current = value as FieldType;
+    setValue("type", value as FieldType);
   };
 
   return (
@@ -51,7 +54,7 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
           >
             <FieldWrapper
               label="Тип поля"
-              errors={formState.errors.type}
+              errorMsg={getErrorMessage(formState.errors, "type")}
               htmlFor="type"
             >
               <SelectField
@@ -64,7 +67,7 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
             <FieldWrapper
               htmlFor="label"
               label="Лейбл"
-              errors={formState.errors.label}
+              errorMsg={getErrorMessage(formState.errors, "label")}
             >
               <Input
                 id="label"

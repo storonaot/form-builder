@@ -1,4 +1,4 @@
-import { CreateFormWidget } from "@/components/CreateFormWidget";
+import { InitConstructorFeature } from "@/components/InitConstructorFeature";
 import { FileText } from "lucide-react";
 
 export const EmptyList = () => {
@@ -15,7 +15,7 @@ export const EmptyList = () => {
             работу.
           </p>
         </div>
-        <CreateFormWidget />
+        <InitConstructorFeature />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { FieldWrapper } from "@/components/ui/FieldWrapper";
 import { Input } from "@/components/ui/input";
+import { getErrorMessage } from "@/lib/form-utils";
 import { useFormContext } from "react-hook-form";
 
 export const StringSettings = () => {
@@ -10,7 +11,7 @@ export const StringSettings = () => {
       <FieldWrapper
         htmlFor="minLength"
         label="Мин. длина"
-        errors={formState.errors.minLength}
+        errorMsg={getErrorMessage(formState.errors, "minLength")}
       >
         <Input
           id="minLength"
@@ -28,7 +29,7 @@ export const StringSettings = () => {
       <FieldWrapper
         label="Макс. длина"
         htmlFor="maxLength"
-        errors={formState.errors.maxLength}
+        errorMsg={getErrorMessage(formState.errors, "maxLength")}
       >
         <Input
           id="maxLength"

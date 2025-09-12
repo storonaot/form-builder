@@ -7,14 +7,11 @@ import { FieldSettingsData } from "../types.ts";
 
 type Props = {
   fields: FieldSettingsData[];
+  onSuccess: (data: any) => void;
 };
 
-export const FormPreviewWidget: FC<Props> = ({ fields }) => {
+export const FormPreviewWidget: FC<Props> = ({ fields, onSuccess }) => {
   const hasFields = fields.length > 0;
-
-  const onSuccess = (data: any) => {
-    console.log("FormPreviewWidget", data);
-  };
 
   if (!hasFields) {
     return (

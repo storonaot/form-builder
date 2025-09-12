@@ -1,5 +1,6 @@
 import { FieldWrapper } from "@/components/ui/FieldWrapper";
 import { Input } from "@/components/ui/input";
+import { getErrorMessage } from "@/lib/form-utils";
 import { useFormContext } from "react-hook-form";
 
 export const IntegerSettings = () => {
@@ -10,7 +11,7 @@ export const IntegerSettings = () => {
       <FieldWrapper
         htmlFor="min"
         label="Мин. значение"
-        errors={formState.errors.min}
+        errorMsg={getErrorMessage(formState.errors, "min")}
       >
         <Input
           id="min"
@@ -26,7 +27,7 @@ export const IntegerSettings = () => {
       <FieldWrapper
         htmlFor="max"
         label="Макс. значение"
-        errors={formState.errors.max}
+        errorMsg={getErrorMessage(formState.errors, "max")}
       >
         <Input
           id="max"

@@ -1,32 +1,52 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PageLayout } from "@/components/PageLayout";
-import { useFormContext } from "@/contexts/FormContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { FormPreviewWidget } from "@/components/FormPreviewWidget";
 import { FieldBuilderWidget } from "@/components/FieldBuilderWidget";
 import { useState } from "react";
-import { FieldSettingsData } from "@/components/types.ts";
+import { FieldSettingsData, FormSettings } from "@/components/types.ts";
+import { nanoid } from "nanoid";
+import { useFormsStorage } from "@/lib/hooks/use-forms-storage";
 
 export default function CreatePage() {
   const router = useRouter();
-  const { currentForm } = useFormContext();
+  const searchParams = useSearchParams();
+
+  const { addNewForm, getForm, removeForm } = useFormsStorage();
+
+  const formName = searchParams.get("name") || "Новая форма";
+  const formDescription = searchParams.get("description") || "Описание формы";
 
   const [fields, setFields] = useState<FieldSettingsData[]>([]);
 
-  // Дефолтные значения при потере контекста
-  const defaultForm = {
-    name: "Новая форма",
-    description: "Описание формы недоступно - контекст потерян",
-  };
-
-  const formData = currentForm || defaultForm;
-  const isContextLost = !currentForm;
-
   const onCreateField = (field: FieldSettingsData) => {
     setFields([...fields, field]);
+  };
+
+  const onSubmitData = (data: any) => {
+    console.log(data);
+  };
+
+  const handleSaveForm = () => {
+    const data: FormSettings = {
+      id: nanoid(),
+      name: formName,
+      description: formDescription,
+      fields: fields,
+      createdAt: new Date().toISOString(),
+    };
+
+    addNewForm(data);
+
+    // Показываем уведомление об успешном сохранении
+    alert(`Форма "${formName}" успешно сохранена!`);
+
+    // TODO: раскомментировать позже
+    // Перенаправляем на главную страницу
+    // router.push("/");
   };
 
   return (
@@ -42,26 +62,19 @@ export default function CreatePage() {
           Назад
         </Button>
 
-        {isContextLost && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
-            <p className="text-sm text-yellow-800">
-              ⚠️ Контекст формы потерян. Используются дефолтные значения.
-            </p>
+        <div className="flex flex-col gap-2">
+          <div>
+            <h1 className="text-3xl font-bold">Создание формы: {formName}</h1>
+            <p className="text-muted-foreground mt-2">{formDescription}</p>
           </div>
-        )}
-
-        <div>
-          <h1 className="text-3xl font-bold">
-            Создание формы: {formData.name}
-          </h1>
-          {formData.description && (
-            <p className="text-muted-foreground mt-2">{formData.description}</p>
-          )}
+          <Button variant="outline" onClick={handleSaveForm}>
+            Сохранить настройки формы
+          </Button>
         </div>
 
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-8">
-            <FormPreviewWidget fields={fields} />
+            <FormPreviewWidget fields={fields} onSuccess={onSubmitData} />
           </div>
           <div className="col-span-4">
             <FieldBuilderWidget onCreate={onCreateField} />
