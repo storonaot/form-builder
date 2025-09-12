@@ -6,9 +6,10 @@ import { getValidationRules } from "./helpers";
 
 type Props = {
   field: FieldSchema;
+  disabled?: boolean;
 };
 
-export const FieldController: FC<Props> = ({ field }) => {
+export const FieldController: FC<Props> = ({ field, disabled }) => {
   const formContext = useFormContext();
 
   return (
@@ -18,12 +19,10 @@ export const FieldController: FC<Props> = ({ field }) => {
       rules={getValidationRules(field)}
       render={(controllerProps) => (
         <FieldRenderer
-          fieldType={field.type}
-          label={field.label}
-          name={field.name}
-          required={field.required}
+          field={field}
           controllerProps={controllerProps.field}
           error={controllerProps.fieldState.error?.message}
+          disabled={disabled}
         />
       )}
     />

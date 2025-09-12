@@ -29,9 +29,20 @@ export default function CreatePage() {
   const [fields, setFields] = useState<FieldSchema[]>([]);
   const [isFormDataModalOpen, setIsFormDataModalOpen] = useState(false);
   const [formData, setFormData] = useState<Record<string, any> | null>(null);
+  const [isFormSchemaModalOpen, setIsFormSchemaModalOpen] = useState(false);
+  const [editingFieldId, setEditingFieldId] = useState<string | undefined>(
+    undefined
+  );
 
   const onCreateField = (field: FieldSchema) => {
-    setFields([...fields, field]);
+    if (editingFieldId) {
+      // Редактирование существующего поля
+      setFields(fields.map((f) => (f.id === editingFieldId ? field : f)));
+      setEditingFieldId(undefined);
+    } else {
+      // Добавление нового поля
+      setFields([...fields, field]);
+    }
   };
 
   const onSubmitData = (data: any) => {
@@ -59,6 +70,18 @@ export default function CreatePage() {
     // router.push("/");
   };
 
+  const handleShowFormSchema = () => {
+    setIsFormSchemaModalOpen(true);
+  };
+
+  const handleEditField = (field: FieldSchema) => {
+    setEditingFieldId(field.id);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingFieldId(undefined);
+  };
+
   return (
     <PageLayout>
       <div className="space-y-4">
@@ -77,17 +100,32 @@ export default function CreatePage() {
             <h1 className="text-3xl font-bold">Создание формы: {formName}</h1>
             <p className="text-muted-foreground mt-2">{formDescription}</p>
           </div>
-          <Button variant="outline" onClick={handleSaveForm}>
-            Сохранить настройки формы
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={handleShowFormSchema}>
+              Показать схему формы
+            </Button>
+            <Button variant="outline" onClick={handleSaveForm}>
+              Сохранить настройки формы
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-8">
-            <FormPreviewWidget fields={fields} onSuccess={onSubmitData} />
+            <FormPreviewWidget
+              fields={fields}
+              onSuccess={onSubmitData}
+              editingFieldId={editingFieldId}
+              onEditField={handleEditField}
+              onCancelEdit={handleCancelEdit}
+            />
           </div>
           <div className="col-span-4">
-            <FieldBuilderWidget onCreate={onCreateField} />
+            <FieldBuilderWidget
+              onCreate={onCreateField}
+              editingField={fields.find((f) => f.id === editingFieldId)}
+              onCancelEdit={handleCancelEdit}
+            />
           </div>
         </div>
       </div>
@@ -115,6 +153,46 @@ export default function CreatePage() {
               <Button
                 variant="outline"
                 onClick={() => setIsFormDataModalOpen(false)}
+              >
+                Закрыть
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Модальное окно со схемой формы */}
+      <Dialog
+        open={isFormSchemaModalOpen}
+        onOpenChange={setIsFormSchemaModalOpen}
+      >
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Схема формы "{formName}"</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h3 className="font-semibold mb-2">Схема формы:</h3>
+              <pre className="bg-white p-3 rounded border text-sm overflow-auto max-h-80">
+                {JSON.stringify(
+                  {
+                    id: "generated-on-save",
+                    name: formName,
+                    description: formDescription,
+                    fields: fields,
+                    createdAt: new Date().toISOString(),
+                  },
+                  null,
+                  2
+                )}
+              </pre>
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setIsFormSchemaModalOpen(false)}
               >
                 Закрыть
               </Button>

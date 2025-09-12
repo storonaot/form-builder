@@ -1,14 +1,13 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FormProvider, useForm, Controller } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { FieldWrapper } from "../ui/FieldWrapper";
 import { SelectField } from "../ui/SelectField";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Switch } from "../ui/switch";
 import { FieldSchema, FieldType, FieldSettings } from "../types.ts";
-import { FC, useRef } from "react";
+import { FC, useRef, useEffect } from "react";
 import { getErrorMessage } from "@/lib/form-utils";
 import { nanoid } from "nanoid";
 import { SpecificSettings } from "./SpecificSettings";
@@ -22,20 +21,64 @@ const fieldTypes = [
 
 type Props = {
   onCreate: (data: FieldSchema) => void;
+  editingField?: FieldSchema;
+  onCancelEdit?: () => void;
 };
 
-export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
+export const FieldBuilderWidget: FC<Props> = ({
+  onCreate,
+  editingField,
+  onCancelEdit,
+}) => {
   const methods = useForm<FieldSettings>();
   const { register, watch, reset, setValue, formState } = methods;
   const prevFieldType = useRef<FieldType>(null);
 
+  // Загружаем данные редактируемого поля или очищаем форму
+  useEffect(() => {
+    if (editingField) {
+      const { id, ...fieldData } = editingField;
+      reset(fieldData);
+    } else {
+      // Очищаем форму в пустое состояние
+      reset({
+        type: undefined,
+        name: "",
+        label: "",
+        required: false,
+      } as unknown as FieldSettings);
+    }
+  }, [editingField, reset]);
+
   const onSubmit = (fieldSettings: FieldSettings) => {
+    // Фильтруем пустые значения перед сохранением
+    const cleanFieldSettings = Object.fromEntries(
+      Object.entries(fieldSettings).filter(([key, value]) => {
+        // Убираем пустые строки, undefined, null и пустые числа
+        if (value === "" || value === undefined || value === null) {
+          return false;
+        }
+        // Для числовых полей проверяем, что это не NaN
+        if (typeof value === "number" && isNaN(value)) {
+          return false;
+        }
+        return true;
+      })
+    );
+
     const fieldWithId: FieldSchema = {
-      ...fieldSettings,
-      id: nanoid(),
+      ...cleanFieldSettings,
+      id: editingField?.id || nanoid(),
     } as FieldSchema;
+
     onCreate(fieldWithId);
-    reset();
+    // Сбрасываем форму в пустое состояние
+    reset({
+      type: undefined,
+      name: "",
+      label: "",
+      required: false,
+    } as unknown as FieldSettings);
   };
 
   const handleTypeChange = (value: string) => {
@@ -50,7 +93,11 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Добавить новое поле</CardTitle>
+        <CardTitle>
+          {editingField
+            ? `Редактирование поля: ${editingField.label} (${editingField.name})`
+            : "Добавить новое поле"}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <FormProvider {...methods}>
@@ -71,57 +118,57 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
               />
             </FieldWrapper>
 
-            <FieldWrapper
-              htmlFor="name"
-              label="Имя поля"
-              errorMsg={getErrorMessage(formState.errors, "name")}
-              required={true}
-            >
-              <Input
-                id="name"
-                error={Boolean(getErrorMessage(formState.errors, "name"))}
-                {...register("name", { required: "Имя поля обязательно" })}
-                placeholder="Введите имя поля (например: email, phone)"
-              />
-            </FieldWrapper>
-
-            <FieldWrapper
-              htmlFor="label"
-              label="Лейбл"
-              errorMsg={getErrorMessage(formState.errors, "label")}
-            >
-              <Input
-                id="label"
-                error={Boolean(getErrorMessage(formState.errors, "label"))}
-                {...register("label")}
-                placeholder="Введите название поля"
-              />
-            </FieldWrapper>
-
-            <FieldWrapper
-              htmlFor="required"
-              label="Обязательное поле"
-              errorMsg={getErrorMessage(formState.errors, "required")}
-            >
-              <Controller
-                name="required"
-                control={methods.control}
-                defaultValue={false}
-                render={({ field }) => (
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
+            {watch("type") && (
+              <>
+                <FieldWrapper
+                  htmlFor="name"
+                  label="Имя поля"
+                  errorMsg={getErrorMessage(formState.errors, "name")}
+                  required={true}
+                >
+                  <Input
+                    id="name"
+                    error={Boolean(getErrorMessage(formState.errors, "name"))}
+                    {...register("name", { required: "Имя поля обязательно" })}
+                    placeholder="Введите имя поля (например: email, phone)"
                   />
+                </FieldWrapper>
+
+                <FieldWrapper
+                  htmlFor="label"
+                  label="Лейбл"
+                  errorMsg={getErrorMessage(formState.errors, "label")}
+                >
+                  <Input
+                    id="label"
+                    error={Boolean(getErrorMessage(formState.errors, "label"))}
+                    {...register("label")}
+                    placeholder="Введите название поля"
+                  />
+                </FieldWrapper>
+
+                <SpecificSettings fieldType={watch("type")} />
+              </>
+            )}
+            {watch("type") && (
+              <div className="flex gap-2">
+                <Button
+                  type="submit"
+                  className="bg-slate-800 hover:bg-slate-900 text-white font-medium"
+                >
+                  {editingField ? "Сохранить изменения" : "Добавить поле"}
+                </Button>
+                {editingField && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={onCancelEdit}
+                  >
+                    Отмена
+                  </Button>
                 )}
-              />
-            </FieldWrapper>
-            <SpecificSettings fieldType={watch("type")} />
-            <Button
-              type="submit"
-              className="bg-slate-800 hover:bg-slate-900 text-white font-medium"
-            >
-              Добавить поле
-            </Button>
+              </div>
+            )}
           </form>
         </FormProvider>
       </CardContent>

@@ -1,33 +1,30 @@
-import { FieldHookForm, FieldType } from "@/components/types.ts";
+import { FieldHookForm, FieldSchema } from "@/components/types.ts";
 import { FieldWrapper } from "@/components/ui/FieldWrapper";
 import { Input } from "@/components/ui/input";
 import { FC } from "react";
 
 type Props = {
-  fieldType: FieldType;
-  label: string;
-  name: string;
-  required: boolean;
+  field: FieldSchema;
   controllerProps: FieldHookForm;
   error?: string;
+  disabled?: boolean;
 };
 
 export const FieldRenderer: FC<Props> = ({
-  fieldType,
-  label,
-  name,
-  required,
+  field,
   controllerProps,
   error,
+  disabled,
 }) => {
   const renderField = () => {
-    switch (fieldType) {
+    switch (field.type) {
       case "string":
         return (
           <Input
             onChange={controllerProps.onChange}
             value={controllerProps.value || ""}
             placeholder="Введите текст"
+            disabled={disabled}
           />
         );
       case "integer":
@@ -37,6 +34,7 @@ export const FieldRenderer: FC<Props> = ({
             onChange={controllerProps.onChange}
             value={controllerProps.value || ""}
             placeholder="Введите целое число"
+            disabled={disabled}
           />
         );
       case "decimal":
@@ -46,6 +44,7 @@ export const FieldRenderer: FC<Props> = ({
             onChange={controllerProps.onChange}
             value={controllerProps.value || ""}
             placeholder="Введите десятичное число"
+            disabled={disabled}
           />
         );
       case "datetime":
@@ -55,6 +54,7 @@ export const FieldRenderer: FC<Props> = ({
             onChange={controllerProps.onChange}
             value={controllerProps.value || ""}
             placeholder="Выберите дату и время"
+            disabled={disabled}
           />
         );
       default:
@@ -63,6 +63,7 @@ export const FieldRenderer: FC<Props> = ({
             onChange={controllerProps.onChange}
             value={controllerProps.value || ""}
             placeholder="Неизвестный тип поля"
+            disabled={disabled}
           />
         );
     }
@@ -70,10 +71,10 @@ export const FieldRenderer: FC<Props> = ({
 
   return (
     <FieldWrapper
-      label={`${label}:${fieldType}`}
-      htmlFor={name}
+      label={`${field.label}:${field.type}`}
+      htmlFor={field.name}
       errorMsg={error}
-      required={required}
+      required={field.required}
     >
       {renderField()}
     </FieldWrapper>

@@ -8,9 +8,18 @@ import { FieldSchema } from "../types.ts";
 type Props = {
   fields: FieldSchema[];
   onSuccess: (data: any) => void;
+  editingFieldId?: string;
+  onEditField?: (field: FieldSchema) => void;
+  onCancelEdit?: () => void;
 };
 
-export const FormPreviewWidget: FC<Props> = ({ fields, onSuccess }) => {
+export const FormPreviewWidget: FC<Props> = ({
+  fields,
+  onSuccess,
+  editingFieldId,
+  onEditField,
+  onCancelEdit,
+}) => {
   const hasFields = fields.length > 0;
 
   if (!hasFields) {
@@ -37,7 +46,13 @@ export const FormPreviewWidget: FC<Props> = ({ fields, onSuccess }) => {
             Предварительный просмотр формы
           </h3>
           <div className="text-sm text-muted-foreground">
-            <FormRenderer fields={fields} onSuccess={onSuccess} />
+            <FormRenderer
+              fields={fields}
+              onSuccess={onSuccess}
+              editingFieldId={editingFieldId}
+              onEditField={onEditField}
+              onCancelEdit={onCancelEdit}
+            />
           </div>
         </div>
       </CardContent>

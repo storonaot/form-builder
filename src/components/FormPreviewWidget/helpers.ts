@@ -4,6 +4,7 @@ import {
   IntegerFieldSchema,
   StringFieldSchema,
   DecimalFieldSchema,
+  DateTimeFieldSchema,
 } from "../types.ts";
 
 export const getValidationRules = (field: FieldSchema): RegisterOptions => {
@@ -114,8 +115,62 @@ export const getValidationRules = (field: FieldSchema): RegisterOptions => {
       return { ...requiredRule, ...decimalRules };
 
     case "datetime":
-      // TODO: добавить валидации для datetime
-      return requiredRule;
+      const datetimeField = field as DateTimeFieldSchema;
+      const datetimeRules: RegisterOptions = {};
+
+      // Проверка формата даты
+      datetimeRules.pattern = {
+        value: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/,
+        message: `${field.label} должно быть в формате даты и времени`,
+      };
+
+      // Проверка минимальной даты
+      if (datetimeField.min) {
+        const minDate = new Date(datetimeField.min);
+        const formattedMinDate =
+          minDate.toLocaleDateString("ru-RU") +
+          " " +
+          minDate.toLocaleTimeString("ru-RU", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        datetimeRules.min = {
+          value: datetimeField.min,
+          message: `${field.label} не может быть раньше ${formattedMinDate}`,
+        };
+      }
+
+      // Проверка максимальной даты
+      if (datetimeField.max) {
+        const maxDate = new Date(datetimeField.max);
+        const formattedMaxDate =
+          maxDate.toLocaleDateString("ru-RU") +
+          " " +
+          maxDate.toLocaleTimeString("ru-RU", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        datetimeRules.max = {
+          value: datetimeField.max,
+          message: `${field.label} не может быть позже ${formattedMaxDate}`,
+        };
+      }
+
+      // Дополнительная валидация корректности даты
+      datetimeRules.validate = {
+        validDate: (value: string) => {
+          if (!value) return true; // пустое значение пропускаем
+
+          const date = new Date(value);
+          if (isNaN(date.getTime())) {
+            return `${field.label} содержит некорректную дату`;
+          }
+
+          return true;
+        },
+      };
+
+      return { ...requiredRule, ...datetimeRules };
 
     default:
       return requiredRule;

@@ -31,6 +31,8 @@ export type IntegerFieldSchema = BaseFieldSchema & {
 
 export type DateTimeFieldSchema = BaseFieldSchema & {
   type: "datetime";
+  min?: string; // ISO string для минимальной даты
+  max?: string; // ISO string для максимальной даты
 };
 
 export type FieldSchema =
