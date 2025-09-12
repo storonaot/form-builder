@@ -1,12 +1,20 @@
 "use client";
 
-import { useFormContext } from "@/contexts/FormContext";
 import { Card, CardContent } from "@/components/ui/card";
+import { FC } from "react";
+import { FormRenderer } from "./FormRenderer";
+import { FieldSettingsData } from "../types.ts";
 
-export const FormPreviewWidget = () => {
-  const { currentForm } = useFormContext();
+type Props = {
+  fields: FieldSettingsData[];
+};
 
-  const hasFields = currentForm?.fields && currentForm.fields.length > 0;
+export const FormPreviewWidget: FC<Props> = ({ fields }) => {
+  const hasFields = fields.length > 0;
+
+  const onSuccess = (data: any) => {
+    console.log("FormPreviewWidget", data);
+  };
 
   if (!hasFields) {
     return (
@@ -32,13 +40,7 @@ export const FormPreviewWidget = () => {
             Предварительный просмотр формы
           </h3>
           <div className="text-sm text-muted-foreground">
-            <p>
-              Здесь будет отображаться предварительный просмотр формы с
-              добавленными полями.
-            </p>
-            <p className="mt-2">
-              Добавлено полей: {currentForm?.fields?.length || 0}
-            </p>
+            <FormRenderer fields={fields} onSuccess={onSuccess} />
           </div>
         </div>
       </CardContent>

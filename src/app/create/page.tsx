@@ -7,10 +7,14 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { FormPreviewWidget } from "@/components/FormPreviewWidget";
 import { FieldBuilderWidget } from "@/components/FieldBuilderWidget";
+import { useState } from "react";
+import { FieldSettingsData } from "@/components/types.ts";
 
 export default function CreatePage() {
   const router = useRouter();
   const { currentForm } = useFormContext();
+
+  const [fields, setFields] = useState<FieldSettingsData[]>([]);
 
   // Дефолтные значения при потере контекста
   const defaultForm = {
@@ -20,6 +24,10 @@ export default function CreatePage() {
 
   const formData = currentForm || defaultForm;
   const isContextLost = !currentForm;
+
+  const onCreateField = (field: FieldSettingsData) => {
+    setFields([...fields, field]);
+  };
 
   return (
     <PageLayout>
@@ -53,10 +61,10 @@ export default function CreatePage() {
 
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-8">
-            <FormPreviewWidget />
+            <FormPreviewWidget fields={fields} />
           </div>
           <div className="col-span-4">
-            <FieldBuilderWidget />
+            <FieldBuilderWidget onCreate={onCreateField} />
           </div>
         </div>
       </div>
