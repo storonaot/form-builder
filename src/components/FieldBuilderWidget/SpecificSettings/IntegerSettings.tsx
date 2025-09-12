@@ -18,8 +18,6 @@ export const IntegerSettings = () => {
           type="number"
           {...register("min", {
             valueAsNumber: true,
-            validate: (value: number) =>
-              !isNaN(value) || "Введите корректное число",
           })}
           placeholder="0"
         />
@@ -34,8 +32,6 @@ export const IntegerSettings = () => {
           type="number"
           {...register("max", {
             valueAsNumber: true,
-            validate: (value: number) =>
-              !isNaN(value) || "Введите корректное число",
           })}
           placeholder="100"
         />

@@ -1,21 +1,21 @@
 import { FC } from "react";
-import { FieldSchema, FieldType } from "../types.ts";
+import { FieldSchema } from "../types.ts";
 import { Controller, useFormContext, RegisterOptions } from "react-hook-form";
 import { FieldRenderer } from "./FieldRenderer";
+import { getValidationRules } from "./helpers.js";
 
 type Props = {
   field: FieldSchema;
-  validationRules?: RegisterOptions;
 };
 
-export const FieldController: FC<Props> = ({ field, validationRules }) => {
+export const FieldController: FC<Props> = ({ field }) => {
   const formContext = useFormContext();
 
   return (
     <Controller
       name={field.name}
       control={formContext.control}
-      rules={validationRules}
+      rules={getValidationRules(field)}
       render={(controllerProps) => (
         <FieldRenderer
           fieldType={field.type}

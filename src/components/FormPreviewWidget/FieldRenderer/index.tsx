@@ -71,7 +71,11 @@ export const FieldRenderer: FC<Props> = ({
   };
 
   return (
-    <FieldWrapper label={label} htmlFor={name} errorMsg={error}>
+    <FieldWrapper
+      label={`${label}:${fieldType}`}
+      htmlFor={name}
+      errorMsg={error}
+    >
       {renderField()}
     </FieldWrapper>
   );

@@ -30,7 +30,10 @@ export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
   const prevFieldType = useRef<FieldType>(null);
 
   const onSubmit = (fieldSettings: FieldSettings) => {
-    const fieldWithId: FieldSchema = { ...fieldSettings, id: nanoid() } as FieldSchema;
+    const fieldWithId: FieldSchema = {
+      ...fieldSettings,
+      id: nanoid(),
+    } as FieldSchema;
     onCreate(fieldWithId);
     reset();
   };

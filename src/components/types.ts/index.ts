@@ -10,23 +10,23 @@ export type BaseFieldSchema = {
   required: boolean;
 };
 
-type StringFieldSchema = BaseFieldSchema & {
+export type StringFieldSchema = BaseFieldSchema & {
   type: "string";
   minLength?: number;
   maxLength?: number;
 };
 
-type DecimalFieldSchema = BaseFieldSchema & {
+export type DecimalFieldSchema = BaseFieldSchema & {
   type: "decimal";
 };
 
-type IntegerFieldSchema = BaseFieldSchema & {
+export type IntegerFieldSchema = BaseFieldSchema & {
   type: "integer";
   min?: number;
   max?: number;
 };
 
-type DateTimeFieldSchema = BaseFieldSchema & {
+export type DateTimeFieldSchema = BaseFieldSchema & {
   type: "datetime";
 };
 
