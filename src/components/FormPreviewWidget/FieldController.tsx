@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { FieldSettingsData } from "../types.ts";
+import { FieldSchema } from "../types.ts";
 
 type Props = {
-  field: FieldSettingsData;
+  field: FieldSchema;
 };
 
 export const FieldController: FC<Props> = ({ field }) => {

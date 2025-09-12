@@ -6,7 +6,7 @@ import { FieldWrapper } from "../ui/FieldWrapper";
 import { SelectField } from "../ui/SelectField";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { FieldSettingsData, FieldType } from "../types.ts";
+import { FieldSchema, FieldType } from "../types.ts";
 import { FC, useRef } from "react";
 import { getErrorMessage } from "@/lib/form-utils";
 import { nanoid } from "nanoid";
@@ -19,15 +19,15 @@ const fieldTypes = [
 ];
 
 type Props = {
-  onCreate: (data: FieldSettingsData) => void;
+  onCreate: (data: FieldSchema) => void;
 };
 
 export const FieldBuilderWidget: FC<Props> = ({ onCreate }) => {
-  const methods = useForm<FieldSettingsData>();
+  const methods = useForm<FieldSchema>();
   const { register, watch, reset, setValue, formState } = methods;
   const prevFieldType = useRef<FieldType>(null);
 
-  const onSubmit = (fieldSettings: FieldSettingsData) => {
+  const onSubmit = (fieldSettings: FieldSchema) => {
     onCreate({ ...fieldSettings, id: nanoid() });
     reset();
   };

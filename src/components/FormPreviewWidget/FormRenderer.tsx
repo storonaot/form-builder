@@ -1,11 +1,11 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "../ui/button";
-import { FieldSettingsData } from "../types.ts";
+import { FieldSchema } from "../types.ts";
 import { FC } from "react";
 import { FieldController } from "./FieldController";
 
 type Props = {
-  fields: FieldSettingsData[];
+  fields: FieldSchema[];
   onSuccess: <T>(data: T) => void;
 };
 

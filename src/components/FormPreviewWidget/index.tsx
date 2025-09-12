@@ -3,10 +3,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { FC } from "react";
 import { FormRenderer } from "./FormRenderer";
-import { FieldSettingsData } from "../types.ts";
+import { FieldSchema } from "../types.ts";
 
 type Props = {
-  fields: FieldSettingsData[];
+  fields: FieldSchema[];
   onSuccess: (data: any) => void;
 };
 

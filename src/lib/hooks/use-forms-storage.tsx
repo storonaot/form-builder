@@ -1,4 +1,4 @@
-import { FieldSettingsData, FormSettings } from "@/components/types.ts";
+import { FieldSchema, FormSettings } from "@/components/types.ts";
 import { useState } from "react";
 
 const STORAGE_KEY = "form-builder-forms";

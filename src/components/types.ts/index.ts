@@ -1,6 +1,6 @@
 export type FieldType = "string" | "integer" | "decimal" | "datetime";
 
-export type FieldSettingsData = {
+export type FieldSchema = {
   id: string;
   type: FieldType;
   label: string;
@@ -10,7 +10,7 @@ export type FormSettings = {
   id: string;
   name: string;
   description: string;
-  fields: FieldSettingsData[];
+  fields: FieldSchema[];
   createdAt: string;
 };
 

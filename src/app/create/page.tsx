@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import { FormPreviewWidget } from "@/components/FormPreviewWidget";
 import { FieldBuilderWidget } from "@/components/FieldBuilderWidget";
 import { useState } from "react";
-import { FieldSettingsData, FormSettings } from "@/components/types.ts";
+import { FieldSchema, FormSettings } from "@/components/types.ts";
 import { nanoid } from "nanoid";
 import { useFormsStorage } from "@/lib/hooks/use-forms-storage";
 
@@ -20,9 +20,9 @@ export default function CreatePage() {
   const formName = searchParams.get("name") || "Новая форма";
   const formDescription = searchParams.get("description") || "Описание формы";
 
-  const [fields, setFields] = useState<FieldSettingsData[]>([]);
+  const [fields, setFields] = useState<FieldSchema[]>([]);
 
-  const onCreateField = (field: FieldSettingsData) => {
+  const onCreateField = (field: FieldSchema) => {
     setFields([...fields, field]);
   };
 
