@@ -6,9 +6,9 @@ import { FieldBuilderWidget } from "@/components/FieldBuilderWidget";
 import { FC, useRef, useState } from "react";
 import { FieldSchema, FormSchema } from "@/components/types.ts";
 import { nanoid } from "nanoid";
-import { StructurePreviewModal } from "./StructurePreviewModal";
 import { Nullable } from "@/lib/utility-types";
 import { useModalState } from "../ui/Modal/useModalState";
+import { StructurePreviewModal } from "../features/StructurePreviewModal";
 
 type Props = {
   formName: string;
@@ -135,7 +135,7 @@ export const ConstructorWidget: FC<Props> = ({
       <StructurePreviewModal
         modal={{
           open: formDataModal.isOpen,
-          onOpen: formDataModal.open,
+          onToggle: formDataModal.toggle,
           onClose: formDataModal.close,
         }}
         title={`Данные формы "${formName}"`}
@@ -146,7 +146,7 @@ export const ConstructorWidget: FC<Props> = ({
       <StructurePreviewModal
         modal={{
           open: formSchemaModal.isOpen,
-          onOpen: formSchemaModal.open,
+          onToggle: formSchemaModal.toggle,
           onClose: formSchemaModal.close,
         }}
         title={`Схема формы "${formName}"`}

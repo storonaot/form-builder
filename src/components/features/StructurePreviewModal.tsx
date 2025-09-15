@@ -10,7 +10,7 @@ import { Nullable } from "@/lib/utility-types";
 type Props<T extends object> = {
   modal: {
     open: boolean;
-    onOpen: (open: boolean) => void;
+    onToggle: (open: boolean) => void;
     onClose: () => void;
   };
   title: string;
@@ -23,7 +23,7 @@ export const StructurePreviewModal = <T extends object>({
   title,
 }: Props<T>) => {
   return (
-    <Dialog open={modal.open} onOpenChange={modal.onOpen}>
+    <Dialog open={modal.open} onOpenChange={modal.onToggle}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

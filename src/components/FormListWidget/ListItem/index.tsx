@@ -1,13 +1,7 @@
 import { FC } from "react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Edit, Eye } from "lucide-react";
+import { Edit, Eye, Trash2 } from "lucide-react";
 
 type ListItemProps = {
   id: string;
@@ -15,6 +9,7 @@ type ListItemProps = {
   description?: string;
   handleEdit: (id: string) => void;
   showPreview: (id: string) => void;
+  handleDelete: (id: string) => void;
 };
 
 export const ListItem: FC<ListItemProps> = ({
@@ -23,6 +18,7 @@ export const ListItem: FC<ListItemProps> = ({
   description,
   handleEdit,
   showPreview,
+  handleDelete,
 }) => {
   return (
     <Card className="w-full">
@@ -50,6 +46,14 @@ export const ListItem: FC<ListItemProps> = ({
               title="Предварительный просмотр"
             >
               <Eye className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="destructive"
+              size="icon"
+              onClick={() => handleDelete(id)}
+              title="Удалить форму"
+            >
+              <Trash2 className="h-4 w-4" />
             </Button>
           </div>
         </div>

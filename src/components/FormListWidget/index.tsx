@@ -1,38 +1,55 @@
+"use client";
+import { useRouter } from "next/navigation";
 import { EmptyList } from "./EmptyList";
 import { ListItem } from "./ListItem";
 import { useFormsStorage } from "@/lib/hooks/use-forms-storage";
+import { Button } from "../ui/button";
 
 export const FormListWidget = () => {
-  const { forms } = useFormsStorage();
+  const { forms, removeForm, clearAllForms } = useFormsStorage();
+  const router = useRouter();
 
   const goToEditPage = (id: string) => {
-    // TODO: переход на страницу /edit/:id
-    console.log("Переход к редактированию формы:", id);
+    router.push(`/edit/${id}`);
   };
 
   const goToPreviewPage = (id: string) => {
-    // TODO: переход на страницу /preview/:id
-    console.log("Переход к превью формы:", id);
+    router.push(`/preview/${id}`);
   };
 
+  const handleDelete = (id: string) => {
+    removeForm(id);
+  };
+
+  const handleClearAll = () => {
+    const confirmMsg =
+      "Вы уверены, что хотите удалить все формы? Это действие нельзя отменить.";
+
+    if (confirm(confirmMsg)) clearAllForms();
+  };
+
+  if (forms.length === 0) return <EmptyList />;
+
   return (
-    <div>
-      {forms.length > 0 ? (
-        <div className="space-y-4">
-          {forms.map((form) => (
-            <ListItem
-              key={form.id}
-              id={form.id}
-              name={form.name}
-              description={form.description}
-              handleEdit={goToEditPage}
-              showPreview={goToPreviewPage}
-            />
-          ))}
-        </div>
-      ) : (
-        <EmptyList />
-      )}
+    <div className="space-y-6">
+      <div className="flex justify-end">
+        <Button variant="destructive" onClick={handleClearAll}>
+          Удалить все формы
+        </Button>
+      </div>
+      <div className="space-y-4">
+        {forms.map((form) => (
+          <ListItem
+            key={form.id}
+            id={form.id}
+            name={form.name}
+            description={form.description}
+            handleEdit={goToEditPage}
+            showPreview={goToPreviewPage}
+            handleDelete={handleDelete}
+          />
+        ))}
+      </div>
     </div>
   );
 };

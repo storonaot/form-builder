@@ -37,10 +37,20 @@ export const useFormsStorage = () => {
     }
   };
 
+  const clearAllForms = () => {
+    setForms([]);
+
+    // Очищаем localStorage
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  };
+
   return {
     addNewForm,
     getForm: getFormById,
     removeForm: removeFormById,
+    clearAllForms,
     forms, // Добавляем forms для доступа к списку
   };
 };

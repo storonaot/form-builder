@@ -19,7 +19,7 @@ export default function CreatePage() {
   const handleSaveForm = (data: FormSchema) => {
     addNewForm(data);
     // Показываем уведомление об успешном сохранении
-    // alert(`Форма "${formName}" успешно сохранена!`);
+    alert(`Форма "${formName}" успешно сохранена!`);
 
     // Перенаправляем на главную страницу
     router.push("/");

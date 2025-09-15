@@ -44,7 +44,7 @@ export const FieldBuilderWidget: FC<Props> = ({
   onReset,
 }) => {
   const methods = useForm<FieldSettings>();
-  const { register, watch, reset, setValue, formState } = methods;
+  const { watch, reset, setValue, formState } = methods;
   const prevFieldType = useRef<FieldType>(null);
 
   // Загружаем данные редактируемого поля или очищаем форму
