@@ -1,10 +1,10 @@
-import { FieldSchema, FormSettings } from "@/components/types.ts";
+import { FieldSchema, FormSchema } from "@/components/types.ts";
 import { useState } from "react";
 
 const STORAGE_KEY = "form-builder-forms";
 
 export const useFormsStorage = () => {
-  const [forms, setForms] = useState<FormSettings[]>(() => {
+  const [forms, setForms] = useState<FormSchema[]>(() => {
     // Инициализация из localStorage при первом рендере
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -13,7 +13,7 @@ export const useFormsStorage = () => {
     return [];
   });
 
-  const addNewForm = (data: FormSettings) => {
+  const addNewForm = (data: FormSchema) => {
     const updatedForms = [...forms, data];
     setForms(updatedForms);
 

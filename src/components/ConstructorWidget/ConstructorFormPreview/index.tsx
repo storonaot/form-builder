@@ -2,23 +2,22 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { FC } from "react";
-import { FormRenderer } from "./FormRenderer";
-import { FieldSchema } from "../types.ts";
+import { FieldSchema } from "../../types.ts/index.js";
+import { FormRenderer } from "../../FormRenderer";
+import { ConstructorFieldWrapper } from "./ConstructorFieldWrapper";
 
 type Props = {
   fields: FieldSchema[];
-  onSuccess: (data: any) => void;
+  onSubmitForm: <T>(data: T) => void;
   editingFieldId?: string;
   onEditField?: (field: FieldSchema) => void;
-  onCancelEdit?: () => void;
 };
 
-export const FormPreviewWidget: FC<Props> = ({
+export const ConstructorFormPreview: FC<Props> = ({
   fields,
-  onSuccess,
+  onSubmitForm,
   editingFieldId,
   onEditField,
-  onCancelEdit,
 }) => {
   const hasFields = fields.length > 0;
 
@@ -46,13 +45,19 @@ export const FormPreviewWidget: FC<Props> = ({
             Предварительный просмотр формы
           </h3>
           <div className="text-sm text-muted-foreground">
-            <FormRenderer
-              fields={fields}
-              onSuccess={onSuccess}
-              editingFieldId={editingFieldId}
-              onEditField={onEditField}
-              onCancelEdit={onCancelEdit}
-            />
+            <FormRenderer onSubmit={onSubmitForm} disabled={!!editingFieldId}>
+              {fields.map((field) => (
+                <ConstructorFieldWrapper
+                  key={field.id}
+                  field={field}
+                  isEditing={editingFieldId === field.id}
+                  isDisabled={!!editingFieldId}
+                  onEdit={onEditField}
+                >
+                  <FormRenderer.Field field={field} />
+                </ConstructorFieldWrapper>
+              ))}
+            </FormRenderer>
           </div>
         </div>
       </CardContent>

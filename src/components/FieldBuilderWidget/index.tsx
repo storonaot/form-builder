@@ -4,31 +4,44 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormProvider, useForm } from "react-hook-form";
 import { FieldWrapper } from "../ui/FieldWrapper";
 import { SelectField } from "../ui/SelectField";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FieldSchema, FieldType, FieldSettings } from "../types.ts";
 import { FC, useRef, useEffect } from "react";
 import { getErrorMessage } from "@/lib/form-utils";
 import { nanoid } from "nanoid";
-import { SpecificSettings } from "./SpecificSettings";
+import { cleanFieldSettings } from "./helpers";
+import { BaseSettings } from "./BaseSettings";
+import { ValidationSettings } from "./ValidationSettings";
 
-const fieldTypes = [
+type FieldTypeOption = {
+  value: FieldType;
+  label: string;
+};
+
+const fieldTypes: FieldTypeOption[] = [
   { value: "string", label: "Текст" },
   { value: "integer", label: "Целое число" },
   { value: "decimal", label: "Десятичное число" },
   { value: "datetime", label: "Дата и время" },
-];
+] as const;
 
 type Props = {
   onCreate: (data: FieldSchema) => void;
   editingField?: FieldSchema;
-  onCancelEdit?: () => void;
+  onReset?: () => void;
+};
+
+const DEFAULT_INITIAL_DATA = {
+  type: undefined,
+  name: "",
+  label: "",
+  required: false,
 };
 
 export const FieldBuilderWidget: FC<Props> = ({
   onCreate,
   editingField,
-  onCancelEdit,
+  onReset,
 }) => {
   const methods = useForm<FieldSettings>();
   const { register, watch, reset, setValue, formState } = methods;
@@ -41,53 +54,30 @@ export const FieldBuilderWidget: FC<Props> = ({
       reset(fieldData);
     } else {
       // Очищаем форму в пустое состояние
-      reset({
-        type: undefined,
-        name: "",
-        label: "",
-        required: false,
-      } as unknown as FieldSettings);
+      reset(DEFAULT_INITIAL_DATA);
     }
   }, [editingField, reset]);
 
   const onSubmit = (fieldSettings: FieldSettings) => {
     // Фильтруем пустые значения перед сохранением
-    const cleanFieldSettings = Object.fromEntries(
-      Object.entries(fieldSettings).filter(([key, value]) => {
-        // Убираем пустые строки, undefined, null и пустые числа
-        if (value === "" || value === undefined || value === null) {
-          return false;
-        }
-        // Для числовых полей проверяем, что это не NaN
-        if (typeof value === "number" && isNaN(value)) {
-          return false;
-        }
-        return true;
-      })
-    );
+    const cleanedSettings = cleanFieldSettings(fieldSettings);
 
-    const fieldWithId: FieldSchema = {
-      ...cleanFieldSettings,
+    const fieldWithId = {
+      ...cleanedSettings,
       id: editingField?.id || nanoid(),
     } as FieldSchema;
 
     onCreate(fieldWithId);
     // Сбрасываем форму в пустое состояние
-    reset({
-      type: undefined,
-      name: "",
-      label: "",
-      required: false,
-    } as unknown as FieldSettings);
+    reset(DEFAULT_INITIAL_DATA);
   };
 
-  const handleTypeChange = (value: string) => {
+  const handleTypeChange = (value: FieldType) => {
     if (prevFieldType.current !== value) {
       reset();
     }
-    // TODO: fix type
-    prevFieldType.current = value as FieldType;
-    setValue("type", value as FieldType);
+    prevFieldType.current = value;
+    setValue("type", value);
   };
 
   return (
@@ -110,7 +100,7 @@ export const FieldBuilderWidget: FC<Props> = ({
               errorMsg={getErrorMessage(formState.errors, "type")}
               htmlFor="type"
             >
-              <SelectField
+              <SelectField<FieldType>
                 value={watch("type") || ""}
                 onValueChange={handleTypeChange}
                 placeholder="Выберите тип поля"
@@ -120,34 +110,8 @@ export const FieldBuilderWidget: FC<Props> = ({
 
             {watch("type") && (
               <>
-                <FieldWrapper
-                  htmlFor="name"
-                  label="Имя поля"
-                  errorMsg={getErrorMessage(formState.errors, "name")}
-                  required={true}
-                >
-                  <Input
-                    id="name"
-                    error={Boolean(getErrorMessage(formState.errors, "name"))}
-                    {...register("name", { required: "Имя поля обязательно" })}
-                    placeholder="Введите имя поля (например: email, phone)"
-                  />
-                </FieldWrapper>
-
-                <FieldWrapper
-                  htmlFor="label"
-                  label="Лейбл"
-                  errorMsg={getErrorMessage(formState.errors, "label")}
-                >
-                  <Input
-                    id="label"
-                    error={Boolean(getErrorMessage(formState.errors, "label"))}
-                    {...register("label")}
-                    placeholder="Введите название поля"
-                  />
-                </FieldWrapper>
-
-                <SpecificSettings fieldType={watch("type")} />
+                <BaseSettings />
+                <ValidationSettings fieldType={watch("type")} />
               </>
             )}
             {watch("type") && (
@@ -159,11 +123,7 @@ export const FieldBuilderWidget: FC<Props> = ({
                   {editingField ? "Сохранить изменения" : "Добавить поле"}
                 </Button>
                 {editingField && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={onCancelEdit}
-                  >
+                  <Button type="button" variant="outline" onClick={onReset}>
                     Отмена
                   </Button>
                 )}

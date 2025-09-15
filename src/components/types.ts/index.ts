@@ -41,12 +41,11 @@ export type FieldSchema =
   | IntegerFieldSchema
   | DateTimeFieldSchema;
 
-export type FormSettings = {
+export type FormSchema = {
   id: string;
   name: string;
   description: string;
   fields: FieldSchema[];
-  createdAt: string;
 };
 
 // Типы для хук формы

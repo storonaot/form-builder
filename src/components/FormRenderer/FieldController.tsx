@@ -2,14 +2,13 @@ import { FC } from "react";
 import { FieldSchema } from "../types.ts";
 import { Controller, useFormContext } from "react-hook-form";
 import { FieldRenderer } from "./FieldRenderer";
-import { getValidationRules } from "./helpers";
+import { getValidationRules } from "./get-validation-rules";
 
 type Props = {
   field: FieldSchema;
-  disabled?: boolean;
 };
 
-export const FieldController: FC<Props> = ({ field, disabled }) => {
+export const FieldController: FC<Props> = ({ field }) => {
   const formContext = useFormContext();
 
   return (
@@ -22,7 +21,7 @@ export const FieldController: FC<Props> = ({ field, disabled }) => {
           field={field}
           controllerProps={controllerProps.field}
           error={controllerProps.fieldState.error?.message}
-          disabled={disabled}
+          disabled={controllerProps.field.disabled}
         />
       )}
     />

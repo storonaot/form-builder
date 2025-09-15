@@ -71,7 +71,7 @@ export const FieldRenderer: FC<Props> = ({
 
   return (
     <FieldWrapper
-      label={`${field.label}:${field.type}`}
+      label={field.label}
       htmlFor={field.name}
       errorMsg={error}
       required={field.required}

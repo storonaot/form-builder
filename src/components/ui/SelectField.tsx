@@ -7,19 +7,19 @@ import {
   SelectValue,
 } from "./select";
 
-type SelectFieldProps = {
-  value: string;
-  onValueChange: (value: string) => void;
+type SelectFieldProps<TValue extends string = string> = {
+  value: TValue;
+  onValueChange: (value: TValue) => void;
   placeholder: string;
-  options: { value: string; label: string }[];
+  options: { value: TValue; label: string }[];
 };
 
-export const SelectField: FC<SelectFieldProps> = ({
+export const SelectField = <TValue extends string = string>({
   value,
   onValueChange,
   placeholder,
   options,
-}) => {
+}: SelectFieldProps<TValue>) => {
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger>
