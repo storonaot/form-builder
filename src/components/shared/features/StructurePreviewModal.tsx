@@ -24,15 +24,15 @@ export const StructurePreviewModal = <T extends object>({
 }: Props<T>) => {
   return (
     <Dialog open={modal.open} onOpenChange={modal.onToggle}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-[90vw] w-auto min-w-[600px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
-          <div className="bg-gray-50 p-4 rounded-lg">
+          <div className="bg-gray-50 p-4 rounded-lg overflow-hidden">
             {structure ? (
-              <pre className="bg-white p-3 rounded border text-sm overflow-auto max-h-60">
+              <pre className="bg-white p-3 rounded border text-sm overflow-auto max-h-60 whitespace-pre min-w-0">
                 {JSON.stringify(structure, null, 2)}
               </pre>
             ) : (
