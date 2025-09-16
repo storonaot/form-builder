@@ -10,7 +10,8 @@ type Props = {
   fields: FieldSchema[];
   onSubmitForm: <T>(data: T) => void;
   editingFieldId?: string;
-  onEditField?: (field: FieldSchema) => void;
+  onEditField: (field: FieldSchema) => void;
+  onDeleteField: (field: FieldSchema) => void;
 };
 
 export const ConstructorFormPreview: FC<Props> = ({
@@ -18,6 +19,7 @@ export const ConstructorFormPreview: FC<Props> = ({
   onSubmitForm,
   editingFieldId,
   onEditField,
+  onDeleteField,
 }) => {
   const hasFields = fields.length > 0;
 
@@ -53,6 +55,7 @@ export const ConstructorFormPreview: FC<Props> = ({
                   isEditing={editingFieldId === field.id}
                   isDisabled={!!editingFieldId}
                   onEdit={onEditField}
+                  onDelete={onDeleteField}
                 >
                   <FormRenderer.Field field={field} />
                 </ConstructorFieldWrapper>

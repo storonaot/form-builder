@@ -24,7 +24,24 @@ export const useFormsStorage = () => {
   };
 
   const getFormById = (id: string) => {
+    if (!id) throw new Error("Form ID is required");
+
     return forms.find((form) => form.id === id);
+  };
+
+  const updateFormById = (id: string, updatedData: Partial<FormSchema>) => {
+    const updatedForms = forms.map((form) => {
+      if (form.id === id) {
+        return { ...form, ...updatedData };
+      }
+      return form;
+    });
+    setForms(updatedForms);
+
+    // Сохраняем в localStorage
+    if (typeof window !== "undefined") {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedForms));
+    }
   };
 
   const removeFormById = (id: string) => {
@@ -51,6 +68,7 @@ export const useFormsStorage = () => {
     getForm: getFormById,
     removeForm: removeFormById,
     clearAllForms,
+    updateForm: updateFormById,
     forms, // Добавляем forms для доступа к списку
   };
 };

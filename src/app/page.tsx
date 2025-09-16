@@ -3,25 +3,25 @@
 import { InitConstructorFeature } from "@/components/InitConstructorFeature";
 import { FormListWidget } from "@/components/FormListWidget";
 import { PageLayout } from "@/components/PageLayout";
+import { PageContainer } from "@/components/PageContainer";
 
 export default function HomePage() {
   return (
     <PageLayout>
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-semibold text-slate-800 mb-2">
-            Конструктор форм
-          </h1>
-          <p className="text-slate-500 text-lg">
-            Создавайте и управляйте вашими формами
-          </p>
-        </div>
-        <InitConstructorFeature />
-      </div>
+      <PageContainer
+        title="Конструктор форм"
+        subtitle="Создавайте и управляйте вашими формами"
+      >
+        <div className="space-y-8">
+          {/* Кнопка создания формы - справа с отступом снизу */}
+          <div className="flex justify-end">
+            <InitConstructorFeature />
+          </div>
 
-      <div className="space-y-6">
-        <FormListWidget />
-      </div>
+          {/* Список форм */}
+          <FormListWidget />
+        </div>
+      </PageContainer>
     </PageLayout>
   );
 }

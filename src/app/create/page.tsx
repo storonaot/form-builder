@@ -5,6 +5,7 @@ import { ConstructorWidget } from "@/components/ConstructorWidget";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormSchema } from "@/components/types.ts";
 import { useFormsStorage } from "@/lib/hooks/use-forms-storage";
+import { PageContainer } from "@/components/PageContainer";
 
 export default function CreatePage() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function CreatePage() {
 
   const { addNewForm } = useFormsStorage();
 
-  const handleSaveForm = (data: FormSchema) => {
+  const handleSaveSchema = (data: FormSchema) => {
     addNewForm(data);
     // Показываем уведомление об успешном сохранении
     alert(`Форма "${formName}" успешно сохранена!`);
@@ -27,11 +28,20 @@ export default function CreatePage() {
 
   return (
     <PageLayout>
-      <ConstructorWidget
-        formName={formName}
-        formDescription={formDescription}
-        onFormSchemaSubmit={handleSaveForm}
-      />
+      <PageContainer
+        title={`Создание формы: ${formName}`}
+        subtitle={formDescription}
+        onBack={() => router.push("/")}
+      >
+        <ConstructorWidget
+          formSchema={{
+            name: formName,
+            description: formDescription,
+            fields: [],
+          }}
+          onFormSchemaSubmit={handleSaveSchema}
+        />
+      </PageContainer>
     </PageLayout>
   );
 }

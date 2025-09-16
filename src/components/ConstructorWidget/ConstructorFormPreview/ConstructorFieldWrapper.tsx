@@ -3,13 +3,14 @@
 import { FC, PropsWithChildren, ReactNode } from "react";
 import { FieldSchema } from "../../types.ts/index.js";
 import { Button } from "../../ui/button";
-import { Edit } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 
 type Props = PropsWithChildren<{
   field: FieldSchema;
   isEditing?: boolean;
   isDisabled?: boolean;
-  onEdit?: (field: FieldSchema) => void;
+  onEdit: (field: FieldSchema) => void;
+  onDelete: (field: FieldSchema) => void;
   className?: string;
 }>;
 
@@ -18,37 +19,54 @@ export const ConstructorFieldWrapper: FC<Props> = ({
   isEditing = false,
   isDisabled = false,
   onEdit,
+  onDelete,
   className = "",
   children,
 }) => {
   return (
     <div
-      className={`flex items-start gap-2 transition-all duration-200 ${
+      className={`flex items-center gap-4 transition-all duration-200 ${
         isDisabled && !isEditing ? "opacity-50 pointer-events-none" : ""
       } ${
         isEditing
-          ? "bg-red-50 p-3 rounded-lg border-2 border-red-300 relative"
+          ? "bg-green-50 p-3 rounded-lg border-2 border-green-300 relative"
           : ""
       } ${className}`}
     >
-      {isEditing && (
-        <div className="absolute -top-3 left-2 bg-white text-red-500 text-xs px-2 py-1 rounded border border-red-300 shadow-sm">
+      {/* {isEditing && (
+        <div className="absolute -top-3 left-2 bg-white text-green-500 text-xs px-2 py-1 rounded border border-green-300 shadow-sm z-10">
           Редактируется
         </div>
-      )}
+      )} */}
+
+      {/* Поле формы - занимает доступное пространство */}
       <div className="flex-1">{children}</div>
-      {onEdit && (
+
+      {/* Кнопки действий - справа на том же уровне */}
+      <div className="flex gap-2">
         <Button
           type="button"
           variant="outline"
           size="sm"
-          className="mt-6 h-8 w-8 p-0"
+          className="h-8 w-8 p-0"
           disabled={isDisabled}
           onClick={() => onEdit(field)}
+          title="Редактировать поле"
         >
           <Edit className="h-4 w-4" />
         </Button>
-      )}
+        <Button
+          type="button"
+          variant="destructive"
+          size="sm"
+          className="h-8 w-8 p-0"
+          disabled={isDisabled}
+          onClick={() => onDelete(field)}
+          title="Удалить поле"
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      </div>
     </div>
   );
 };

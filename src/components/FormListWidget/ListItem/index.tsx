@@ -17,7 +17,6 @@ export const ListItem: FC<ListItemProps> = ({
   name,
   description,
   handleEdit,
-  showPreview,
   handleDelete,
 }) => {
   return (
@@ -38,14 +37,6 @@ export const ListItem: FC<ListItemProps> = ({
               title="Редактировать"
             >
               <Edit className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="default"
-              size="icon"
-              onClick={() => showPreview(id)}
-              title="Предварительный просмотр"
-            >
-              <Eye className="h-4 w-4" />
             </Button>
             <Button
               variant="destructive"

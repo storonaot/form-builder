@@ -32,11 +32,6 @@ export const FormListWidget = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-end">
-        <Button variant="destructive" onClick={handleClearAll}>
-          Удалить все формы
-        </Button>
-      </div>
       <div className="space-y-4">
         {forms.map((form) => (
           <ListItem
@@ -49,6 +44,11 @@ export const FormListWidget = () => {
             handleDelete={handleDelete}
           />
         ))}
+      </div>
+      <div className="flex justify-end">
+        <Button variant="destructive" onClick={handleClearAll}>
+          Удалить все формы
+        </Button>
       </div>
     </div>
   );
