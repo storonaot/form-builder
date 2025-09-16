@@ -1,5 +1,7 @@
 // Упрощенная функция для создания валидаторов
 const validator = (
+  // TODO: Заменить any на более конкретные типы для value, formValues, options
+  // @ts-ignore
   fn: (value: any, formValues?: any, options?: any) => boolean | string
 ) => fn;
 

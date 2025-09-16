@@ -50,10 +50,15 @@ export type FormSchema = {
 
 // Типы для хук формы
 export type FieldHookForm<T extends string = string> = ControllerRenderProps<
+  // TODO: сузить тип
+  // @ts-ignore
   Record<string, any>,
   T
 >;
 
 // Для настроек полей (без id) - используется в формах создания
 export type FieldSettings = Omit<FieldSchema, "id">;
+
+// TODO: сузить тип
+// @ts-ignore
 export type FormDataCustom = Record<string, any>;

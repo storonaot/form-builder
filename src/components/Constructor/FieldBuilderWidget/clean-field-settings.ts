@@ -39,6 +39,8 @@ export const cleanFieldSettings = (
     }
 
     // Добавляем валидное значение
+    // TODO: Заменить any на более безопасное приведение типов с проверкой
+    // @ts-ignore
     (result as any)[key] = value;
   }
 

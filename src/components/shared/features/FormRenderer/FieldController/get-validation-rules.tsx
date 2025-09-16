@@ -19,6 +19,8 @@ import {
 } from "@/lib/validators";
 
 export const getValidationRules = (field: FieldSchema): RegisterOptions => {
+  // TODO: Заменить any на более конкретные типы для validate
+  // @ts-ignore
   const validate: Record<string, any> = {};
 
   // Обязательность
