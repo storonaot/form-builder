@@ -51,7 +51,7 @@ export const FieldBuilderWidget: FC<Props> = ({
   // Загружаем данные редактируемого поля или очищаем форму
   useEffect(() => {
     if (editingField) {
-      const { id, ...fieldData } = editingField;
+      const { ...fieldData } = editingField;
       reset(fieldData);
     } else {
       // Очищаем форму в пустое состояние

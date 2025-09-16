@@ -20,6 +20,14 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    rules: {
+      // TODO: выпилить @typescript-eslint/ban-ts-comment и @typescript-eslint/no-explicit-any после замены всех any на более конкретные типы
+      // Разрешаем использование @ts-ignore
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

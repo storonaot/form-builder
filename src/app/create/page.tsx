@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { PageLayout } from "@/components/layouts/PageLayout";
 import { ConstructorWidget } from "@/components/Constructor";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -7,9 +8,8 @@ import { useFormsStorage } from "@/components/Constructor/use-forms-storage";
 import { FormSchema } from "@/components/Constructor/types";
 import { PageContainer } from "@/components/layouts/PageContainer";
 
-export default function CreatePage() {
+function CreatePageContent() {
   const router = useRouter();
-
   const searchParams = useSearchParams();
 
   const formName = searchParams.get("name") || "Новая форма";
@@ -43,5 +43,13 @@ export default function CreatePage() {
         />
       </PageContainer>
     </PageLayout>
+  );
+}
+
+export default function CreatePage() {
+  return (
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <CreatePageContent />
+    </Suspense>
   );
 }
