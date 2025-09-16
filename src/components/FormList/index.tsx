@@ -5,6 +5,7 @@ import { ListItem } from "./ListItem";
 import { useFormsStorage } from "@/hooks/use-forms-storage";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
+import { InitConstructorFeature } from "../shared/features/InitConstructorFeature";
 
 export const FormListWidget = () => {
   const { forms, removeForm, clearAllForms } = useFormsStorage();
@@ -42,6 +43,10 @@ export const FormListWidget = () => {
 
   return (
     <div className="space-y-6">
+      {/* Кнопка создания формы - справа с отступом снизу */}
+      <div className="flex justify-end">
+        <InitConstructorFeature />
+      </div>
       <div className="space-y-4">
         {forms.map((form) => (
           <ListItem
