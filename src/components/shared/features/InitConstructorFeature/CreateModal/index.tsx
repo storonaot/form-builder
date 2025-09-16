@@ -11,23 +11,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { FC } from "react";
 
-interface CreateModalProps {
+type Props = {
   isOpen: boolean;
-  onClose: () => void;
+  onToggle: () => void;
   onSubmit: (data: { name: string; description: string }) => void;
-}
+  onClose: () => void;
+};
 
 interface CreateConstructorFormData {
   title: string;
   description: string;
 }
 
-export const CreateModal = ({
+export const CreateModal: FC<Props> = ({
   isOpen,
-  onClose,
+  onToggle,
   onSubmit,
-}: CreateModalProps) => {
+  onClose,
+}) => {
   const {
     register,
     handleSubmit,
@@ -58,7 +61,7 @@ export const CreateModal = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={() => {}}>
+    <Dialog open={isOpen} onOpenChange={onToggle}>
       <DialogContent
         className="sm:max-w-[425px]"
         onPointerDownOutside={(e) => e.preventDefault()}

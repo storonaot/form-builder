@@ -1,20 +1,12 @@
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreateModal } from "./CreateModal";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useModalState } from "@/components/ui/Modal/useModalState";
 
 export const InitConstructorFeature = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const modal = useModalState();
 
   const handleFormSubmit = (formData: {
     name: string;
@@ -25,22 +17,21 @@ export const InitConstructorFeature = () => {
       description: formData.description,
     });
     router.push(`/create?${searchParams.toString()}`);
-    setIsModalOpen(false);
+    modal.close();
   };
 
   return (
     <div>
-      <Button onClick={handleOpenModal} className="gap-2">
+      <Button onClick={modal.open} className="gap-2">
         <Plus className="h-4 w-4" />
         Создать форму
       </Button>
-      {isModalOpen && (
-        <CreateModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          onSubmit={handleFormSubmit}
-        />
-      )}
+      <CreateModal
+        isOpen={modal.isOpen}
+        onToggle={modal.toggle}
+        onSubmit={handleFormSubmit}
+        onClose={modal.close}
+      />
     </div>
   );
 };
