@@ -4,10 +4,16 @@ import { EmptyList } from "./EmptyList";
 import { ListItem } from "./ListItem";
 import { useFormsStorage } from "@/hooks/use-forms-storage";
 import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
 
 export const FormListWidget = () => {
   const { forms, removeForm, clearAllForms } = useFormsStorage();
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const goToEditPage = (id: string) => {
     router.push(`/edit/${id}`);
@@ -27,6 +33,10 @@ export const FormListWidget = () => {
 
     if (confirm(confirmMsg)) clearAllForms();
   };
+
+  if (!isClient) {
+    return <div>Загрузка...</div>;
+  }
 
   if (forms.length === 0) return <EmptyList />;
 
