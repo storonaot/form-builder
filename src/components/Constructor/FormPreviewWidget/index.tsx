@@ -2,19 +2,19 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { FC } from "react";
-import { FieldSchema } from "../types.js";
+import { FieldSchema, FormDataCustom } from "../types";
 import { FormRenderer } from "@/components/shared/features/FormRenderer";
 import { ConstructorFieldWrapper } from "./ConstructorFieldWrapper";
 
 type Props = {
   fields: FieldSchema[];
-  onSubmitForm: <T>(data: T) => void;
+  onSubmitForm: (data: FormDataCustom) => void;
   editingFieldId?: string;
   onEditField: (field: FieldSchema) => void;
   onDeleteField: (field: FieldSchema) => void;
 };
 
-export const ConstructorFormPreview: FC<Props> = ({
+export const FormPreviewWidget: FC<Props> = ({
   fields,
   onSubmitForm,
   editingFieldId,

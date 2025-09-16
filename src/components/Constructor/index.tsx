@@ -5,8 +5,8 @@ import { nanoid } from "nanoid";
 import { Nullable } from "@/lib/utility-types";
 import { useModalState } from "../ui/Modal/useModalState";
 import { Eye, Save } from "lucide-react";
-import { FieldSchema, FormSchema } from "./types";
-import { ConstructorFormPreview } from "./FormPreviewWidget";
+import { FieldSchema, FormDataCustom, FormSchema } from "./types";
+import { FormPreviewWidget } from "./FormPreviewWidget";
 import { StructurePreviewModal } from "../shared/features/StructurePreviewModal";
 
 type Props = {
@@ -14,13 +14,11 @@ type Props = {
   formSchema: Omit<FormSchema, "id"> & { id?: string };
 };
 
-type FormData = Record<string, any>;
-
 export const ConstructorWidget: FC<Props> = ({
   onFormSchemaSubmit,
   formSchema,
 }) => {
-  const formData = useRef<Nullable<FormData>>(null);
+  const formData = useRef<Nullable<FormDataCustom>>(null);
 
   // модалки
   const formDataModal = useModalState();
@@ -43,7 +41,7 @@ export const ConstructorWidget: FC<Props> = ({
     }
   };
 
-  const showFormData = (data: FormData) => {
+  const showFormData = (data: FormDataCustom) => {
     formData.current = data;
     formDataModal.open();
     console.log("Данные формы:", data);
@@ -114,7 +112,7 @@ export const ConstructorWidget: FC<Props> = ({
         </div>
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-8">
-            <ConstructorFormPreview
+            <FormPreviewWidget
               fields={fields}
               onSubmitForm={showFormData}
               onEditField={handleEditField}

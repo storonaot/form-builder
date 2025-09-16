@@ -18,7 +18,7 @@ interface CreateModalProps {
   onSubmit: (data: { name: string; description: string }) => void;
 }
 
-interface FormData {
+interface CreateConstructorFormData {
   title: string;
   description: string;
 }
@@ -33,14 +33,14 @@ export const CreateModal = ({
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
+  } = useForm<CreateConstructorFormData>({
     defaultValues: {
       title: "",
       description: "",
     },
   });
 
-  const handleFormSubmit = async (data: FormData) => {
+  const handleFormSubmit = async (data: CreateConstructorFormData) => {
     try {
       onSubmit({
         name: data.title,
