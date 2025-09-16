@@ -7,13 +7,13 @@ import { DateTimeSettings } from "./DateTimeSettings";
 import { FieldWrapper } from "@/components/ui/FieldWrapper";
 import { Switch } from "@/components/ui/switch";
 import { getErrorMessage } from "@/lib/form-utils";
-import { FieldType } from "@/components/types.ts";
+import { FieldType } from "../../types";
 
 type Props = {
   fieldType: FieldType;
 };
 
-export const ValidationSettings: FC<Props> = ({ fieldType }) => {
+export const ValidationFields: FC<Props> = ({ fieldType }) => {
   const { control, formState } = useFormContext();
 
   const renderSpecificSettings = () => {

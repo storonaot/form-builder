@@ -1,9 +1,9 @@
 "use client";
 
-import { InitConstructorFeature } from "@/components/InitConstructorFeature";
-import { FormListWidget } from "@/components/FormListWidget";
-import { PageLayout } from "@/components/PageLayout";
-import { PageContainer } from "@/components/PageContainer";
+import { InitConstructorFeature } from "@/components/shared/features/InitConstructorFeature";
+import { FormListWidget } from "@/components/FormList";
+import { PageLayout } from "@/components/layouts/PageLayout";
+import { PageContainer } from "@/components/layouts/PageContainer";
 
 export default function HomePage() {
   return (

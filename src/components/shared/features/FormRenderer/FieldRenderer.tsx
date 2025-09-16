@@ -1,4 +1,4 @@
-import { FieldHookForm, FieldSchema } from "@/components/types.ts";
+import { FieldHookForm, FieldSchema } from "@/components/Constructor/types";
 import { FieldWrapper } from "@/components/ui/FieldWrapper";
 import { Input } from "@/components/ui/input";
 import { FC } from "react";
@@ -31,7 +31,12 @@ export const FieldRenderer: FC<Props> = ({
         return (
           <Input
             type="number"
-            onChange={controllerProps.onChange}
+            onChange={(e) => {
+              // Парсим в integer при изменении
+              const value =
+                e.target.value === "" ? "" : parseInt(e.target.value, 10);
+              controllerProps.onChange(Number.isInteger(value) ? value : "");
+            }}
             value={controllerProps.value || ""}
             placeholder="Введите целое число"
             disabled={disabled}

@@ -1,7 +1,7 @@
 // src/components/PageContainer/index.tsx
 import { FC, PropsWithChildren, ReactNode } from "react";
 import { ArrowLeft } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 type PageContainerProps = PropsWithChildren<{
   title: string;

@@ -1,4 +1,4 @@
-import { InitConstructorFeature } from "@/components/InitConstructorFeature";
+import { InitConstructorFeature } from "@/components/shared/features/InitConstructorFeature";
 import { FileText } from "lucide-react";
 
 export const EmptyList = () => {

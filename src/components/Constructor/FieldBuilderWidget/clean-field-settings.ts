@@ -1,4 +1,4 @@
-import { FieldSettings } from "../types.ts";
+import { FieldSettings } from "../types";
 
 /**
  * Фильтрует пустые значения из настроек поля, сохраняя обязательные поля

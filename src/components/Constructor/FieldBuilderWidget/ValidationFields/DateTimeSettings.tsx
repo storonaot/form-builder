@@ -1,15 +1,15 @@
 import { FieldWrapper } from "@/components/ui/FieldWrapper";
 import { Input } from "@/components/ui/input";
 import { getErrorMessage } from "@/lib/form-utils";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import {
   dateGreaterThanOther,
   dateLessThanOther,
   isValidDate,
-} from "../validators";
+} from "../../../../lib/validators";
 
 export const DateTimeSettings = () => {
-  const { register, formState, watch } = useFormContext();
+  const { control, formState, watch } = useFormContext();
 
   // Следим за значениями полей для валидации
   const minValue = watch("min");
@@ -22,16 +22,24 @@ export const DateTimeSettings = () => {
         label="Мин. дата"
         errorMsg={getErrorMessage(formState.errors, "min")}
       >
-        <Input
-          id="min"
-          type="datetime-local"
-          error={Boolean(getErrorMessage(formState.errors, "min"))}
-          {...register("min", {
+        <Controller
+          name="min"
+          control={control}
+          defaultValue=""
+          rules={{
             validate: {
               isValidDate,
               dateLessThanOther: dateLessThanOther(maxValue),
             },
-          })}
+          }}
+          render={({ field }) => (
+            <Input
+              id="min"
+              type="datetime-local"
+              error={Boolean(getErrorMessage(formState.errors, "min"))}
+              {...field}
+            />
+          )}
         />
       </FieldWrapper>
       <FieldWrapper
@@ -39,16 +47,24 @@ export const DateTimeSettings = () => {
         label="Макс. дата"
         errorMsg={getErrorMessage(formState.errors, "max")}
       >
-        <Input
-          id="max"
-          type="datetime-local"
-          error={Boolean(getErrorMessage(formState.errors, "max"))}
-          {...register("max", {
+        <Controller
+          name="max"
+          control={control}
+          defaultValue=""
+          rules={{
             validate: {
               isValidDate,
               dateGreaterThanOther: dateGreaterThanOther(minValue),
             },
-          })}
+          }}
+          render={({ field }) => (
+            <Input
+              id="max"
+              type="datetime-local"
+              error={Boolean(getErrorMessage(formState.errors, "max"))}
+              {...field}
+            />
+          )}
         />
       </FieldWrapper>
     </>

@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { FieldSchema } from "../types.ts";
 import { Controller, useFormContext } from "react-hook-form";
-import { FieldRenderer } from "./FieldRenderer";
+import { FieldRenderer } from "../FieldRenderer";
 import { getValidationRules } from "./get-validation-rules";
+import { FieldSchema } from "@/components/Constructor/types";
 
 type Props = {
   field: FieldSchema;

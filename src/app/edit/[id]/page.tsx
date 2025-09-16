@@ -1,12 +1,12 @@
 "use client";
 
-import { PageLayout } from "@/components/PageLayout";
-import { ConstructorWidget } from "@/components/ConstructorWidget";
-import { FormSchema } from "@/components/types.ts";
-import { useFormsStorage } from "@/lib/hooks/use-forms-storage";
+import { PageLayout } from "@/components/layouts/PageLayout";
+import { ConstructorWidget } from "@/components/Constructor";
+import { useFormsStorage } from "@/hooks/use-forms-storage";
 import { useParams, useRouter } from "next/navigation";
 import { isString } from "@/lib/type-guards";
-import { PageContainer } from "@/components/PageContainer";
+import { FormSchema } from "@/components/Constructor/types";
+import { PageContainer } from "@/components/layouts/PageContainer";
 
 export default function EditPage() {
   const router = useRouter();

@@ -2,8 +2,8 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { FC } from "react";
-import { FieldSchema } from "../../types.ts/index.js";
-import { FormRenderer } from "../../FormRenderer";
+import { FieldSchema } from "../types.js";
+import { FormRenderer } from "@/components/shared/features/FormRenderer";
 import { ConstructorFieldWrapper } from "./ConstructorFieldWrapper";
 
 type Props = {

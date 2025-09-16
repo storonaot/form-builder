@@ -8,7 +8,7 @@ import {
   nonNegative,
   lessThanOther,
   greaterThanOther,
-} from "../validators";
+} from "../../../../lib/validators";
 
 export const StringSettings = () => {
   const { register, formState, watch } = useFormContext();

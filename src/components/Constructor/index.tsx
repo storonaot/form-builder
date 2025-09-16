@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { ConstructorFormPreview } from "@/components/ConstructorWidget/ConstructorFormPreview";
-import { FieldBuilderWidget } from "@/components/FieldBuilderWidget";
+import { FieldBuilderWidget } from "@/components/Constructor/FieldBuilderWidget";
 import { FC, useMemo, useRef, useState } from "react";
-import { FieldSchema, FormSchema } from "@/components/types.ts";
 import { nanoid } from "nanoid";
 import { Nullable } from "@/lib/utility-types";
 import { useModalState } from "../ui/Modal/useModalState";
-import { StructurePreviewModal } from "../features/StructurePreviewModal";
 import { Eye, Save } from "lucide-react";
+import { FieldSchema, FormSchema } from "./types";
+import { ConstructorFormPreview } from "./FormPreviewWidget";
+import { StructurePreviewModal } from "../shared/features/StructurePreviewModal";
 
 type Props = {
   onFormSchemaSubmit: (formSchema: FormSchema) => void;

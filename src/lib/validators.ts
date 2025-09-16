@@ -3,6 +3,15 @@ const validator = (
   fn: (value: any, formValues?: any, options?: any) => boolean | string
 ) => fn;
 
+export const required = (message?: string) =>
+  validator((value) => {
+    return (
+      (value !== "" && value !== undefined && value !== null) ||
+      message ||
+      "Поле обязательно для заполнения"
+    );
+  });
+
 // Валидации по типу поля
 // Числа:
 export const isNumber = validator((value) => {
@@ -91,6 +100,29 @@ export const greaterThanOther = (
     );
   });
 
+// Числа с плавающей точкой:
+export const decimalPlaces = (maxPlaces: number) =>
+  validator((value) => {
+    if (value === "" || value === undefined) return true;
+    const decimalPart = value.split(".")[1];
+    const actualPlaces = decimalPart ? decimalPart.length : 0;
+    return (
+      actualPlaces <= maxPlaces || `Не более ${maxPlaces} знаков после запятой`
+    );
+  });
+
+// Строки:
+export const minLength = (minLen: number) =>
+  validator((value) => {
+    if (value === "" || value === undefined) return true;
+    return value.length >= minLen || `Минимальная длина: ${minLen} символов`;
+  });
+export const maxLength = (maxLen: number) =>
+  validator((value) => {
+    if (value === "" || value === undefined) return true;
+    return value.length <= maxLen || `Максимальная длина: ${maxLen} символов`;
+  });
+
 // Даты:
 export const isValidDate = validator((value) => {
   if (value === "" || value === undefined) return true; // пустое значение разрешено
@@ -135,7 +167,22 @@ export const dateGreaterThanOther = (otherValue: string) =>
     );
   });
 
-// Специфические типизации
+export const minDate = (minDateValue: string) =>
+  validator((value) => {
+    if (value === "" || value === undefined) return true;
+    return (
+      new Date(value) >= new Date(minDateValue) || "Дата раньше минимальной"
+    );
+  });
+export const maxDate = (maxDateValue: string) =>
+  validator((value) => {
+    if (value === "" || value === undefined) return true;
+    return (
+      new Date(value) <= new Date(maxDateValue) || "Дата позже максимальной"
+    );
+  });
+
+// Специфические валидации
 export const validNameAttribute = validator((value) => {
   if (value === "" || value === undefined) return true; // пустое значение разрешено
 

@@ -1,10 +1,10 @@
 import { getErrorMessage } from "@/lib/form-utils";
-import { FieldWrapper } from "../ui/FieldWrapper";
+import { FieldWrapper } from "../../ui/FieldWrapper";
 import { Controller, useFormContext } from "react-hook-form";
-import { Input } from "../ui/input";
-import { validNameAttribute } from "./validators";
+import { Input } from "../../ui/input";
+import { validNameAttribute } from "../../../lib/validators";
 
-export const BaseSettings = () => {
+export const BaseFields = () => {
   const { control, formState } = useFormContext();
 
   return (

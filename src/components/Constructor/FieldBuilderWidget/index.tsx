@@ -2,16 +2,17 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormProvider, useForm } from "react-hook-form";
-import { FieldWrapper } from "../ui/FieldWrapper";
-import { SelectField } from "../ui/SelectField";
-import { Button } from "../ui/button";
-import { FieldSchema, FieldType, FieldSettings } from "../types.ts";
+import { FieldWrapper } from "../../ui/FieldWrapper";
+import { SelectField } from "../../ui/SelectField";
+import { Button } from "../../ui/button";
+import { FieldSchema, FieldSettings } from "../types";
 import { FC, useRef, useEffect } from "react";
 import { getErrorMessage } from "@/lib/form-utils";
 import { nanoid } from "nanoid";
-import { cleanFieldSettings } from "./helpers";
-import { BaseSettings } from "./BaseSettings";
-import { ValidationSettings } from "./ValidationSettings";
+import { cleanFieldSettings } from "./clean-field-settings";
+import { BaseFields } from "./BaseFields";
+import { ValidationFields } from "./ValidationFields";
+import { FieldType } from "../types";
 
 type FieldTypeOption = {
   value: FieldType;
@@ -110,8 +111,8 @@ export const FieldBuilderWidget: FC<Props> = ({
 
             {watch("type") && (
               <>
-                <BaseSettings />
-                <ValidationSettings fieldType={watch("type")} />
+                <BaseFields />
+                <ValidationFields fieldType={watch("type")} />
               </>
             )}
             {watch("type") && (

@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { EmptyList } from "./EmptyList";
 import { ListItem } from "./ListItem";
-import { useFormsStorage } from "@/lib/hooks/use-forms-storage";
+import { useFormsStorage } from "@/hooks/use-forms-storage";
 import { Button } from "../ui/button";
 
 export const FormListWidget = () => {

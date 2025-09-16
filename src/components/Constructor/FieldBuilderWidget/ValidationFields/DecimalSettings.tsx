@@ -9,7 +9,7 @@ import {
   lessThanOther,
   maxValue,
   nonNegative,
-} from "../validators";
+} from "../../../../lib/validators";
 
 const MAX_DECIMAL_PLACES = 10;
 

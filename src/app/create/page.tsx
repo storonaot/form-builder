@@ -1,11 +1,11 @@
 "use client";
 
-import { PageLayout } from "@/components/PageLayout";
-import { ConstructorWidget } from "@/components/ConstructorWidget";
+import { PageLayout } from "@/components/layouts/PageLayout";
+import { ConstructorWidget } from "@/components/Constructor";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormSchema } from "@/components/types.ts";
-import { useFormsStorage } from "@/lib/hooks/use-forms-storage";
-import { PageContainer } from "@/components/PageContainer";
+import { useFormsStorage } from "@/hooks/use-forms-storage";
+import { FormSchema } from "@/components/Constructor/types";
+import { PageContainer } from "@/components/layouts/PageContainer";
 
 export default function CreatePage() {
   const router = useRouter();

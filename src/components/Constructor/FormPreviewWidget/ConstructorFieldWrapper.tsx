@@ -1,9 +1,9 @@
 "use client";
 
-import { FC, PropsWithChildren, ReactNode } from "react";
-import { FieldSchema } from "../../types.ts/index.js";
+import { FC, PropsWithChildren } from "react";
 import { Button } from "../../ui/button";
 import { Edit, Trash2 } from "lucide-react";
+import { FieldSchema } from "../types.js";
 
 type Props = PropsWithChildren<{
   field: FieldSchema;
@@ -33,12 +33,6 @@ export const ConstructorFieldWrapper: FC<Props> = ({
           : ""
       } ${className}`}
     >
-      {/* {isEditing && (
-        <div className="absolute -top-3 left-2 bg-white text-green-500 text-xs px-2 py-1 rounded border border-green-300 shadow-sm z-10">
-          Редактируется
-        </div>
-      )} */}
-
       {/* Поле формы - занимает доступное пространство */}
       <div className="flex-1">{children}</div>
 

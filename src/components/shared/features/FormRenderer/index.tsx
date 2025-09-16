@@ -1,8 +1,8 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { Button } from "../ui/button";
-import { FieldSchema } from "../types.ts";
 import { FC, ReactNode } from "react";
 import { FieldController } from "./FieldController";
+import { FieldSchema } from "@/components/Constructor/types";
+import { Button } from "@/components/ui/button";
 
 type FormRendererProps = {
   children: ReactNode;

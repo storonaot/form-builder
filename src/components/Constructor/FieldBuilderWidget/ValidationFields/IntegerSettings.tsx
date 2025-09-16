@@ -7,7 +7,7 @@ import {
   isNumber,
   lessThanOther,
   greaterThanOther,
-} from "../validators";
+} from "../../../../lib/validators";
 
 export const IntegerSettings = () => {
   const { register, formState, watch } = useFormContext();
