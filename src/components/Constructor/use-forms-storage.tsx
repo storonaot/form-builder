@@ -1,5 +1,5 @@
-import { FieldSchema, FormSchema } from "@/components/types.ts";
 import { useState } from "react";
+import { FormSchema } from "./types";
 
 const STORAGE_KEY = "form-builder-forms";
 

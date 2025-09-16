@@ -1,12 +1,12 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { FC, ReactNode } from "react";
 import { FieldController } from "./FieldController";
-import { FieldSchema } from "@/components/Constructor/types";
+import { FieldSchema, FormDataCustom } from "@/components/Constructor/types";
 import { Button } from "@/components/ui/button";
 
 type FormRendererProps = {
   children: ReactNode;
-  onSubmit: <T>(data: T) => void;
+  onSubmit: (data: FormDataCustom) => void;
   submitText?: string;
   disabled?: boolean;
 };
@@ -28,7 +28,7 @@ const FormRendererComponent: FC<FormRendererProps> = ({
     mode: "onChange",
   });
 
-  const handleSubmit = <T,>(data: T) => {
+  const handleSubmit = (data: FormDataCustom) => {
     onSubmit(data);
   };
 

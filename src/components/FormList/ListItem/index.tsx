@@ -9,8 +9,8 @@ type ListItemProps = {
   description?: string;
   fieldsCount: number;
   handleEdit: (id: string) => void;
-  showPreview: (id: string) => void;
   handleDelete: (id: string) => void;
+  showPreview: (id: string) => void;
 };
 
 export const ListItem: FC<ListItemProps> = ({
@@ -20,6 +20,7 @@ export const ListItem: FC<ListItemProps> = ({
   fieldsCount,
   handleEdit,
   handleDelete,
+  showPreview,
 }) => {
   return (
     <Card className="w-full">
@@ -37,6 +38,14 @@ export const ListItem: FC<ListItemProps> = ({
               {fieldsCount === 1 ? "поле" : fieldsCount < 5 ? "поля" : "полей"}
             </div>
             <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => showPreview(id)}
+                title="Предварительный просмотр"
+              >
+                <Eye className="h-4 w-4" />
+              </Button>
               <Button
                 variant="outline"
                 size="icon"

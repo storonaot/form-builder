@@ -2,7 +2,7 @@
 
 import { PageLayout } from "@/components/layouts/PageLayout";
 import { ConstructorWidget } from "@/components/Constructor";
-import { useFormsStorage } from "@/hooks/use-forms-storage";
+import { useFormsStorage } from "@/components/Constructor/use-forms-storage";
 import { useParams, useRouter } from "next/navigation";
 import { isString } from "@/lib/type-guards";
 import { FormSchema } from "@/components/Constructor/types";
