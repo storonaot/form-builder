@@ -42,6 +42,7 @@ export const FormListWidget = () => {
             handleEdit={goToEditPage}
             showPreview={goToPreviewPage}
             handleDelete={handleDelete}
+            fieldsCount={form.fields.length}
           />
         ))}
       </div>
